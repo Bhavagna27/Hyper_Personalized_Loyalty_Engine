@@ -54,20 +54,20 @@ The pipeline **ingests → validates → engineers features → segments custome
 
 ```mermaid
 %%{init: {
-  'theme': 'dark',
-  'themeVariables': {
-    'darkMode': true,
-    'background': '#0d1117',
-    'primaryColor': '#1a2332',
-    'primaryTextColor': '#e6edf3',
-    'primaryBorderColor': '#30363d',
-    'lineColor': '#58a6ff',
-    'secondaryColor': '#161b22',
-    'tertiaryColor': '#0d1117',
-    'clusterBkg': '#0d1117',
-    'clusterBorder': '#21262d',
-    'nodeBorder': '#30363d',
-    'fontSize': '14px'
+  "theme": "dark",
+  "themeVariables": {
+    "darkMode": true,
+    "background": "#0d1117",
+    "primaryColor": "#1a2332",
+    "primaryTextColor": "#e6edf3",
+    "primaryBorderColor": "#30363d",
+    "lineColor": "#58a6ff",
+    "secondaryColor": "#161b22",
+    "tertiaryColor": "#0d1117",
+    "clusterBkg": "#0d1117",
+    "clusterBorder": "#21262d",
+    "nodeBorder": "#30363d",
+    "fontSize": "14px"
   }
 }}%%
 graph TB
