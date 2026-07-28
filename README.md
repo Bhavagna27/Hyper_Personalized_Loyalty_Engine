@@ -52,88 +52,85 @@ The pipeline **ingests → validates → engineers features → segments custome
 
 ## 🏗️ Architecture
 
-```mermaid
-graph TB
-    subgraph Input["📥 Data Input"]
-        A[Excel Workbook<br/>.xlsx] --> B[ExcelDatasetLoader]
-    end
-
-    subgraph Stage1["1️⃣ Ingestion & Validation"]
-        B --> C[IngestionPipeline]
-        C --> D[Schema Validation]
-        D --> E[Quality Rules Engine]
-        E --> F[Cleaned CSVs<br/>data/processed/]
-        E --> G[Validation Report<br/>reports/validation_report.json]
-    end
-
-    subgraph Stage2["2️⃣ Feature Engineering"]
-        F --> H[FeatureEngineeringPipeline]
-        H --> I[RFM Features]
-        H --> J[Reward Features]
-        H --> K[Engagement Features]
-        H --> L[Shopping Behavior]
-        H --> M[Customer Value]
-        H --> N[Derived Features]
-        H --> O[customer_features.csv]
-        H --> P[feature_pipeline.joblib]
-        H --> Q[feature_metadata.json]
-    end
-
-    subgraph Stage3["3️⃣ Customer Segmentation"]
-        O --> R[SegmentationPipeline]
-        R --> S[K-Evaluation<br/>K=2..10]
-        R --> T[KMeans Training]
-        R --> U[Persona Assignment]
-        R --> V[kmeans_model.joblib]
-        R --> W[cluster_profiles.csv]
-        R --> X[cluster_statistics.csv]
-        R --> Y[Visualization PNGs]
-    end
-
-    subgraph Stage4["4️⃣ Training & Recommendations"]
-        O --> Z[Model Training]
-        Z --> AA[model_bundle.joblib]
-        Z --> AB[model_evaluation.json]
-        O --> AC[RecommendationEngine]
-        U --> AC
-        AC --> AD[recommendations.csv]
-        AC --> AE[reward_catalog.csv]
-        O --> AF[NewCustomerPredictor]
-        V --> AF
-        AF --> AG[new_customer_predictions.csv]
-    end
-
-    subgraph Stage5["5️⃣ LLM Personalization"]
-        AD --> AH[LLMRecommendationPersonalizer]
-        AG --> AH
-        AH --> AI[llm_recommendations.csv]
-        AH --> AJ[Natural Language Insights]
-    end
-
-    subgraph Dashboard["📊 Interactive Dashboard"]
-        F --> AK[Streamlit App<br/>dashboard/app.py]
-        O --> AK
-        V --> AK
-        W --> AK
-        X --> AK
-        AD --> AK
-        AE --> AK
-        AG --> AK
-        AI --> AK
-        AK --> AL[Page 1: Overview]
-        AK --> AM[Page 2: Segmentation]
-        AK --> AN[Page 3: Recommendations]
-        AK --> AO[Page 4: New Customer]
-        AK --> AP[Page 5: Business Analytics]
-    end
-
-    style Input fill:#e1f5fe,stroke:#0288d1
-    style Stage1 fill:#e8f5e9,stroke:#388e3c
-    style Stage2 fill:#fff3e0,stroke:#f57c00
-    style Stage3 fill:#f3e5f5,stroke:#7b1fa2
-    style Stage4 fill:#e0f2f1,stroke:#00796b
-    style Stage5 fill:#fce4ec,stroke:#c62828
-    style Dashboard fill:#e8eaf6,stroke:#283593
+```
+┌──────────────────────────────────────────────────────────────┐
+│                   📥 DATA INPUT                              │
+│            Excel Workbook (.xlsx)                             │
+└─────────────────────┬────────────────────────────────────────┘
+                      │
+                      ▼
+┌──────────────────────────────────────────────────────────────┐
+│              1️⃣  INGESTION & VALIDATION                      │
+│  ┌──────────────┐  ┌──────────────┐  ┌───────────────────┐  │
+│  │ Schema Check │→ │ Quality Rules│→│ Cleaned CSVs +     │  │
+│  │              │  │              │  │ Validation Report  │  │
+│  └──────────────┘  └──────────────┘  └───────────────────┘  │
+└─────────────────────┬────────────────────────────────────────┘
+                      │
+                      ▼
+┌──────────────────────────────────────────────────────────────┐
+│              2️⃣  FEATURE ENGINEERING                         │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌───────────────┐  │
+│  │   RFM    │ │  Reward  │ │Engagement│ │    Shopping    │  │
+│  │ Features │ │ Features │ │ Features │ │   Behavior    │  │
+│  └──────────┘ └──────────┘ └──────────┘ └───────────────┘  │
+│  ┌──────────────┐ ┌──────────────┐                          │
+│  │Customer Value│ │   Derived    │ → customer_features.csv  │
+│  └──────────────┘ └──────────────┘   feature_pipeline.*     │
+└─────────────────────┬────────────────────────────────────────┘
+                      │
+                      ▼
+┌──────────────────────────────────────────────────────────────┐
+│             3️⃣  CUSTOMER SEGMENTATION                        │
+│  ┌──────────────┐ ┌──────────────┐ ┌──────────────────────┐ │
+│  │ K-Evaluation │→│KMeans Training│→│  Persona Assignment  │ │
+│  │  (K=2..10)   │ │              │ │(Premium Traveler,    │ │
+│  └──────────────┘ └──────────────┘ │ Digital Explorer…)   │ │
+│                                    └──────────────────────┘ │
+│  Outputs: cluster_profiles.csv, cluster_statistics.csv,      │
+│           kmeans_model.joblib, Visualization PNGs            │
+└─────────────────────┬────────────────────────────────────────┘
+                      │
+                      ▼
+┌──────────────────────────────────────────────────────────────┐
+│         4️⃣  TRAINING & RECOMMENDATIONS                       │
+│  ┌──────────────────┐    ┌──────────────────────────────┐   │
+│  │  Model Training  │    │    Recommendation Engine      │   │
+│  │ (Random Forest)  │    │  (Hybrid Scoring + Top-3)    │   │
+│  └──────────────────┘    └──────────────────────────────┘   │
+│  Outputs: model_bundle.joblib, recommendations.csv,          │
+│           model_evaluation.json, reward_catalog.csv          │
+└─────────────────────┬────────────────────────────────────────┘
+                      │
+                      ▼
+┌──────────────────────────────────────────────────────────────┐
+│            5️⃣  NEW CUSTOMER PREDICTION                       │
+│  ┌──────────────┐ ┌──────────────┐ ┌────────────────────┐   │
+│  │    Feature   │→│    Cluster   │→│  Similarity Score  │   │
+│  │  Engineering │ │  Assignment  │ │  + Recommendations │   │
+│  └──────────────┘ └──────────────┘ └────────────────────┘   │
+└─────────────────────┬────────────────────────────────────────┘
+                      │
+                      ▼
+┌──────────────────────────────────────────────────────────────┐
+│            6️⃣  LLM PERSONALIZATION (Optional)                │
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │ OpenAI Integration → Natural Language Insights       │   │
+│  │ Fallback: Deterministic Templates + Response Caching │   │
+│  └──────────────────────────────────────────────────────┘   │
+└─────────────────────┬────────────────────────────────────────┘
+                      │
+                      ▼
+┌──────────────────────────────────────────────────────────────┐
+│               📊 INTERACTIVE DASHBOARD                        │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌────────────────┐ │
+│  │ Overview │ │Customer  │ │Recommend-│ │  New Customer  │ │
+│  │          │ │Segment.  │ │  ations  │ │  Prediction    │ │
+│  └──────────┘ └──────────┘ └──────────┘ └────────────────┘ │
+│  ┌──────────────────┐                                       │
+│  │Business Analytics │  ← 5-page Streamlit App              │
+│  └──────────────────┘                                       │
+└──────────────────────────────────────────────────────────────┘
 ```
 
 ---
