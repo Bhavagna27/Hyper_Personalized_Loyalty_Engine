@@ -53,162 +53,81 @@ The pipeline **ingests → validates → engineers features → segments custome
 ## 🏗️ Architecture
 
 ```mermaid
-%%{init: {
-  "theme": "dark",
-  "themeVariables": {
-    "darkMode": true,
-    "background": "#0d1117",
-    "primaryColor": "#1a2332",
-    "primaryTextColor": "#e6edf3",
-    "primaryBorderColor": "#30363d",
-    "lineColor": "#58a6ff",
-    "secondaryColor": "#161b22",
-    "tertiaryColor": "#0d1117",
-    "clusterBkg": "#0d1117",
-    "clusterBorder": "#21262d",
-    "nodeBorder": "#30363d",
-    "fontSize": "14px"
-  }
-}}%%
-graph TB
-    %% ─── STYLES ───
-    classDef input fill:#1c2a3a,stroke:#58a6ff,stroke-width:2px,color:#e6edf3,font-weight:700
-    classDef process fill:#161b22,stroke:#30363d,stroke-width:1.5px,color:#c9d1d9
-    classDef parallel fill:#1c2a3a,stroke:#2ea043,stroke-width:1.5px,color:#7ee787
-    classDef output fill:#1c2a3a,stroke:#d29922,stroke-width:1.5px,color:#e3b341
-    classDef subgraphTitle fill:#0d1117,stroke:#30363d,stroke-width:1px,color:#8b949e
-    classDef branch fill:#162033,stroke:#bc8cff,stroke-width:1.5px,color:#d2a8ff
-    classDef merge fill:#1c2a3a,stroke:#ff7b72,stroke-width:2px,color:#ffa198,font-weight:700
+%%{init: {"theme": "dark"}}%%
+flowchart TB
+    classDef io fill:#1e3a5f,stroke:#58a6ff,stroke-width:2px,color:#fff
+    classDef process fill:#21262d,stroke:#8b949e,stroke-width:1px,color:#e6edf3
+    classDef parallel fill:#1a3a2a,stroke:#2ea043,stroke-width:1px,color:#7ee787
+    classDef output fill:#3a2a1a,stroke:#d29922,stroke-width:1px,color:#e3b341
+    classDef branch fill:#2a1a3a,stroke:#bc8cff,stroke-width:1px,color:#d2a8ff
 
-    %% ─── NODES ───
-    input_wb(["📥 Excel Workbook\n(.xlsx)"]):::input
+    I("📥 Excel Workbook"):::io
 
-    subgraph stage1["1️⃣  INGESTION & VALIDATION"]
-        direction TB
-        loader["ExcelDatasetLoader\nAuto-discover sheets"]:::process
-        schema["Schema Validation\nRequired columns, types"]:::process
-        rules["Quality Rules Engine\nMissing values, duplicates"]:::process
-        cleaner["Data Cleaning\nTrim · Dedup · Coerce · Impute"]:::process
-        csv_out["📄 Cleaned CSVs\ndata/processed/*.csv"]:::output
-        report_out["📋 Validation Report\nreports/validation_report.json"]:::output
-
-        loader --> schema
-        schema --> rules
-        rules --> cleaner
-        cleaner --> csv_out
-        cleaner --> report_out
-    end
-
-    subgraph stage2["2️⃣  FEATURE ENGINEERING"]
+    subgraph S1["1. Ingestion & Validation"]
         direction LR
-        rfm["RFM\nFeatures"]:::parallel
-        reward["Reward\nFeatures"]:::parallel
-        engage["Engagement\nFeatures"]:::parallel
-        shop["Shopping\nBehavior"]:::parallel
-        value["Customer\nValue"]:::parallel
-        derived["Derived\nFeatures"]:::parallel
-        fe_merge["FeatureEngineeringPipeline\n40+ engineered features"]:::process
-        fe_out["📦 Artifacts\ncustomer_features.csv\nfeature_pipeline.joblib\nfeature_metadata.json"]:::output
-
-        rfm --> fe_merge
-        reward --> fe_merge
-        engage --> fe_merge
-        shop --> fe_merge
-        value --> fe_merge
-        derived --> fe_merge
-        fe_merge --> fe_out
+        A1["Validate Schema"]:::process -->|"Check columns"| A2["Run Quality Rules"]:::process -->|"Detect issues"| A3["Clean Data"]:::process
+        A3 -->|"Save"| A4["Cleaned CSVs"]:::output
+        A3 -->|"Export"| A5["Validation Report"]:::output
     end
 
-    subgraph stage3["3️⃣  CUSTOMER SEGMENTATION"]
-        direction TB
-        keval["K-Evaluation\nElbow + Silhouette (K=2..10)"]:::process
-        kmeans["KMeans Training\nn_init=20 · random_state=42"]:::process
-        persona["Persona Assignment\nPremium Traveler · Digital Explorer\nLuxury Lifestyle · Value Shopper\nDormant Customer · Loyal Cashback"]:::branch
-        seg_out["📦 Segmentation Artifacts\nkmeans_model.joblib\ncluster_profiles.csv\ncluster_statistics.csv\ncluster_summary.json\nVisualization PNGs"]:::output
-
-        keval -->|"Select optimal K"| kmeans
-        kmeans -->|"Label clusters"| persona
-        persona --> seg_out
-    end
-
-    subgraph stage4["4️⃣  TRAINING & RECOMMENDATIONS"]
-        direction TB
-        train_mod["Model Training\nRandom Forest Classifiers"]:::process
-        eval_mod["Model Evaluation\nAccuracy · Precision\nRecall · F1 · Confusion Matrix"]:::process
-        rec_eng["Recommendation Engine\nHybrid Scoring + Persona Affinity"]:::process
-        rec_rank["Top-3 Ranking\nPer-customer ranked rewards"]:::process
-        train_out["📦 Training Artifacts\nmodel_bundle.joblib\nmodel_evaluation.json"]:::output
-        rec_out["📄 Recommendation Outputs\nrecommendations.csv\nreward_catalog.csv"]:::output
-
-        train_mod --> eval_mod --> train_out
-        rec_eng --> rec_rank --> rec_out
-    end
-
-    subgraph stage5["5️⃣  NEW CUSTOMER PREDICTION"]
-        direction TB
-        nfeat["Feature Engineering\nConstruct vector from minimal input"]:::process
-        ncluster["Cluster Assignment\nNearest centroid via KMeans"]:::process
-        nsim["Similarity Scoring\nDistance → 0-100 confidence"]:::branch
-        nrec["Generate Recommendations\nTop-3 rewards + business insights"]:::process
-        nout["📄 Prediction Output\nnew_customer_predictions.csv\n· Cluster ID · Persona\n· Similarity Score\n· Confidence Level\n· Recommended Rewards"]:::output
-
-        nfeat --> ncluster
-        ncluster --> nsim
-        nsim --> nrec
-        nrec --> nout
-    end
-
-    subgraph stage6["6️⃣  LLM PERSONALIZATION (Optional)"]
-        direction TB
-        llm_openai["OpenAI Integration\ngpt-4o-mini"]:::branch
-        llm_cache["Response Cache\nAvoid redundant API calls"]:::parallel
-        llm_fallback["Deterministic Fallback\nTemplate-based responses"]:::parallel
-        llm_out["📄 LLM Outputs\nllm_recommendations.csv\n· Customer Insights\n· Retention Strategies\n· Upsell Opportunities"]:::output
-
-        llm_openai --> llm_out
-        llm_fallback --> llm_out
-        llm_cache -.-> llm_openai
-    end
-
-    subgraph stage7["📊  INTERACTIVE DASHBOARD"]
+    subgraph S2["2. Feature Engineering"]
         direction LR
-        p1["Overview\nKPIs · Pipeline Status\nExecutive Summary"]:::process
-        p2["Customer\nSegmentation\nClusters · Personas\nCentroid Radar"]:::process
-        p3["Recommendations\nFilter · Score Dist.\nReward Catalog"]:::process
-        p4["New Customer\nPrediction\nCluster · Similarity\nInsights"]:::process
-        p5["Business\nAnalytics\nValidation · Model\nOperational"]:::process
-        dash_merge["🚀 Streamlit App\nhttp://localhost:8501"]:::merge
-
-        p1 --> dash_merge
-        p2 --> dash_merge
-        p3 --> dash_merge
-        p4 --> dash_merge
-        p5 --> dash_merge
+        B1["RFM"]:::parallel -->|"Build"| B7["Feature Pipeline"]:::process
+        B2["Reward"]:::parallel -->|"Build"| B7
+        B3["Engagement"]:::parallel -->|"Build"| B7
+        B4["Shopping"]:::parallel -->|"Build"| B7
+        B5["Value"]:::parallel -->|"Build"| B7
+        B6["Derived"]:::parallel -->|"Build"| B7
+        B7 -->|"Export"| B8["Feature Table + Artifacts"]:::output
     end
 
-    %% ─── MAIN FLOW ───
-    input_wb -->|"Load worksheets"| stage1
-    stage1 -->|"Pass cleaned data"| stage2
-    stage2 -->|"Supply feature table"| stage3
-    stage2 -.->|"Feature input"| stage4
-    stage3 -.->|"Persona + cluster data"| stage4
-    stage2 -.->|"Feature engineering"| stage5
-    stage3 -.->|"KMeans model"| stage5
-    stage4 -->|"Recommendations"| stage6
-    stage5 -->|"Predictions"| stage6
-    stage1 -.->|"Cleaned CSVs"| stage7
-    stage2 -.->|"Feature metadata"| stage7
-    stage3 -.->|"Cluster profiles + stats"| stage7
-    stage4 -.->|"Recommendation data"| stage7
-    stage5 -.->|"Prediction data"| stage7
-    stage6 -.->|"LLM insights"| stage7
+    subgraph S3["3. Customer Segmentation"]
+        direction TB
+        C1["K-Evaluation"]:::process -->|"Select K"| C2["Train KMeans"]:::process -->|"Label"| C3["Assign Personas"]:::branch -->|"Export"| C4["Cluster Profiles"]:::output
+    end
 
-    %% ─── LINK STYLES ───
-    linkStyle default stroke:#58a6ff,stroke-width:1.5px
-    linkStyle 6,7,8,9,10 stroke:#2ea043,stroke-width:1.5px,stroke-dasharray: 3 3
-    linkStyle 11,12 stroke:#d29922,stroke-width:1.5px
-    linkStyle 13,14 stroke:#bc8cff,stroke-width:1.5px
-    linkStyle 15,16,17,18,19,20 stroke:#8b949e,stroke-width:1.5px,stroke-dasharray: 5 5
+    subgraph S4["4. Training & Recommendations"]
+        direction TB
+        D1["Train Models"]:::process -->|"Evaluate"| D2["Model Evaluation"]:::process -->|"Save"| D3["Trained Models"]:::output
+        D4["Score Rewards"]:::process -->|"Rank"| D5["Top-3 Ranking"]:::process -->|"Export"| D6["Recommendations"]:::output
+    end
+
+    subgraph S5["5. New Customer Prediction"]
+        direction LR
+        E1["Engineer Features"]:::process -->|"Apply KMeans"| E2["Assign Cluster"]:::process -->|"Score"| E3["Similarity Score"]:::branch -->|"Export"| E4["Predictions +
+Insights"]:::output
+    end
+
+    subgraph S6["6. LLM Personalization"]
+        direction TB
+        F1["OpenAI GPT"]:::branch -->|"Generate"| F3["LLM Insights"]:::output
+        F2["Template Fallback"]:::branch -->|"Generate"| F3
+    end
+
+    subgraph S7["7. Interactive Dashboard"]
+        direction LR
+        G1["Overview"]:::process -->|"Feed"| G6["🚀 Streamlit App"]:::io
+        G2["Segmentation"]:::process -->|"Feed"| G6
+        G3["Recommendations"]:::process -->|"Feed"| G6
+        G4["New Customer"]:::process -->|"Feed"| G6
+        G5["Analytics"]:::process -->|"Feed"| G6
+    end
+
+    I -->|"Load"| S1
+    S1 -->|"Pass"| S2
+    S2 -->|"Supply"| S3
+    S2 -.->|"Features"| S4
+    S3 -.->|"Personas"| S4
+    S2 -.->|"Features"| S5
+    S3 -.->|"KMeans"| S5
+    S4 -->|"Recs"| S6
+    S5 -->|"Preds"| S6
+    S1 -.->|"CSVs"| S7
+    S2 -.->|"Metadata"| S7
+    S3 -.->|"Clusters"| S7
+    S4 -.->|"Rec Data"| S7
+    S5 -.->|"Pred Data"| S7
+    S6 -.->|"LLM Data"| S7
 ```
 
 ---
