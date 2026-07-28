@@ -1,0 +1,587 @@
+{
+  "sheets": {
+    "Transaction_History": {
+      "sheet_name": "Transaction_History",
+      "total_rows": 1410,
+      "total_columns": 30,
+      "column_stats": [
+        {
+          "name": "Customer_ID",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 200
+        },
+        {
+          "name": "Transaction_ID",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 1410
+        },
+        {
+          "name": "Transaction_Date",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 181
+        },
+        {
+          "name": "Membership_Tier",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 4
+        },
+        {
+          "name": "Customer_Since",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 189
+        },
+        {
+          "name": "Age",
+          "dtype": "int64",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 39
+        },
+        {
+          "name": "Gender",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 2
+        },
+        {
+          "name": "City",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 6
+        },
+        {
+          "name": "Occupation",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 6
+        },
+        {
+          "name": "Income_Level",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 3
+        },
+        {
+          "name": "Store_Channel",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 3
+        },
+        {
+          "name": "Brand",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 5
+        },
+        {
+          "name": "Product_Category",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 8
+        },
+        {
+          "name": "Product_Name",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 13
+        },
+        {
+          "name": "Quantity",
+          "dtype": "int64",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 2
+        },
+        {
+          "name": "Purchase_Amount",
+          "dtype": "int64",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 1405
+        },
+        {
+          "name": "Coupon_Used",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 2
+        },
+        {
+          "name": "Reward_Points_Earned",
+          "dtype": "int64",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 968
+        },
+        {
+          "name": "Reward_Points_Redeemed",
+          "dtype": "int64",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 734
+        },
+        {
+          "name": "Reward_Points_Available",
+          "dtype": "int64",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 786
+        },
+        {
+          "name": "Reward_Points_Expired",
+          "dtype": "int64",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 313
+        },
+        {
+          "name": "Reward_Source",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 4
+        },
+        {
+          "name": "Product_Viewed",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 2
+        },
+        {
+          "name": "Wishlist_Added",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 2
+        },
+        {
+          "name": "Cart_Abandoned",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 2
+        },
+        {
+          "name": "Email_Clicked",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 2
+        },
+        {
+          "name": "Push_Notification_Clicked",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 2
+        },
+        {
+          "name": "App_Opened",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 2
+        },
+        {
+          "name": "Website_Visits",
+          "dtype": "int64",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 20
+        },
+        {
+          "name": "Session_Duration_Min",
+          "dtype": "int64",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 34
+        }
+      ],
+      "invalid_records": [
+        {
+          "rule": "duplicate_customer_ids",
+          "id_column": "Customer_ID",
+          "duplicate_count": 1410,
+          "duplicate_ids_sample": [
+            "C0001",
+            "C0002",
+            "C0003",
+            "C0004",
+            "C0005",
+            "C0006",
+            "C0007",
+            "C0008",
+            "C0009",
+            "C0010",
+            "C0011",
+            "C0012",
+            "C0013",
+            "C0014",
+            "C0015",
+            "C0016",
+            "C0017",
+            "C0018",
+            "C0019",
+            "C0020"
+          ]
+        },
+        {
+          "rule": "invalid_categorical",
+          "column": "Store_Channel",
+          "invalid_count": 963,
+          "invalid_values_sample": [
+            "Offline",
+            "App"
+          ],
+          "valid_values": [
+            "In-Store",
+            "Mobile App",
+            "Online"
+          ]
+        }
+      ],
+      "suggested_fixes": [
+        "Resolve 1410 rows with duplicated 'Customer_ID' values.",
+        "Replace 963 out-of-vocabulary value(s) in 'Store_Channel' with one of: ['In-Store', 'Mobile App', 'Online']."
+      ]
+    },
+    "Customer_Loyalty_Profile": {
+      "sheet_name": "Customer_Loyalty_Profile",
+      "total_rows": 200,
+      "total_columns": 20,
+      "column_stats": [
+        {
+          "name": "Customer_ID",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 200
+        },
+        {
+          "name": "Membership_Tier",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 4
+        },
+        {
+          "name": "Customer_Since",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 189
+        },
+        {
+          "name": "Age",
+          "dtype": "int64",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 39
+        },
+        {
+          "name": "Gender",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 2
+        },
+        {
+          "name": "City",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 6
+        },
+        {
+          "name": "Occupation",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 6
+        },
+        {
+          "name": "Income_Level",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 3
+        },
+        {
+          "name": "Total_Transactions_6M",
+          "dtype": "int64",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 7
+        },
+        {
+          "name": "Total_Spend_6M",
+          "dtype": "int64",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 200
+        },
+        {
+          "name": "Average_Order_Value",
+          "dtype": "float64",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 200
+        },
+        {
+          "name": "Preferred_Brand",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 5
+        },
+        {
+          "name": "Reward_Utilization",
+          "dtype": "float64",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 45
+        },
+        {
+          "name": "Reward_Expiry_Risk",
+          "dtype": "float64",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 35
+        },
+        {
+          "name": "Purchase_Frequency",
+          "dtype": "float64",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 7
+        },
+        {
+          "name": "Loyalty_Engagement",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 2
+        },
+        {
+          "name": "Days_Since_Last_Purchase",
+          "dtype": "int64",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 68
+        },
+        {
+          "name": "Upgrade_Readiness",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 1
+        },
+        {
+          "name": "Customer_Health",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 2
+        },
+        {
+          "name": "Churn_Risk",
+          "dtype": "str",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": false,
+          "unique_count": 2
+        }
+      ],
+      "invalid_records": [
+        {
+          "rule": "invalid_categorical",
+          "column": "Upgrade_Readiness",
+          "invalid_count": 200,
+          "invalid_values_sample": [
+            "No"
+          ],
+          "valid_values": [
+            "High",
+            "Low",
+            "Medium"
+          ]
+        },
+        {
+          "rule": "invalid_categorical",
+          "column": "Customer_Health",
+          "invalid_count": 200,
+          "invalid_values_sample": [
+            "Needs Attention",
+            "Critical"
+          ],
+          "valid_values": [
+            "At Risk",
+            "Healthy",
+            "Stable"
+          ]
+        }
+      ],
+      "suggested_fixes": [
+        "Replace 200 out-of-vocabulary value(s) in 'Upgrade_Readiness' with one of: ['High', 'Low', 'Medium'].",
+        "Replace 200 out-of-vocabulary value(s) in 'Customer_Health' with one of: ['At Risk', 'Healthy', 'Stable']."
+      ]
+    },
+    "AI_Recommendations": {
+      "sheet_name": "AI_Recommendations",
+      "total_rows": 0,
+      "total_columns": 6,
+      "column_stats": [
+        {
+          "name": "Customer_ID",
+          "dtype": "object",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": true,
+          "unique_count": 0
+        },
+        {
+          "name": "Customer_Insight",
+          "dtype": "object",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": true,
+          "unique_count": 0
+        },
+        {
+          "name": "Business_Issue",
+          "dtype": "object",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": true,
+          "unique_count": 0
+        },
+        {
+          "name": "Recommended_Action",
+          "dtype": "object",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": true,
+          "unique_count": 0
+        },
+        {
+          "name": "Expected_Impact",
+          "dtype": "object",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": true,
+          "unique_count": 0
+        },
+        {
+          "name": "Customer_Message",
+          "dtype": "object",
+          "missing_count": 0,
+          "missing_pct": 0.0,
+          "is_empty": true,
+          "unique_count": 0
+        }
+      ],
+      "invalid_records": [
+        {
+          "rule": "empty_column",
+          "column": "Customer_ID"
+        },
+        {
+          "rule": "empty_column",
+          "column": "Customer_Insight"
+        },
+        {
+          "rule": "empty_column",
+          "column": "Business_Issue"
+        },
+        {
+          "rule": "empty_column",
+          "column": "Recommended_Action"
+        },
+        {
+          "rule": "empty_column",
+          "column": "Expected_Impact"
+        },
+        {
+          "rule": "empty_column",
+          "column": "Customer_Message"
+        }
+      ],
+      "suggested_fixes": [
+        "Drop or investigate entirely empty column 'Customer_ID'.",
+        "Drop or investigate entirely empty column 'Customer_Insight'.",
+        "Drop or investigate entirely empty column 'Business_Issue'.",
+        "Drop or investigate entirely empty column 'Recommended_Action'.",
+        "Drop or investigate entirely empty column 'Expected_Impact'.",
+        "Drop or investigate entirely empty column 'Customer_Message'."
+      ]
+    }
+  }
+}

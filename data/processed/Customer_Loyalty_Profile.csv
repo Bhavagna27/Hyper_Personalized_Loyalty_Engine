@@ -1,0 +1,201 @@
+Customer_ID,Membership_Tier,Customer_Since,Age,Gender,City,Occupation,Income_Level,Total_Transactions_6M,Total_Spend_6M,Average_Order_Value,Preferred_Brand,Reward_Utilization,Reward_Expiry_Risk,Purchase_Frequency,Loyalty_Engagement,Days_Since_Last_Purchase,Upgrade_Readiness,Customer_Health,Churn_Risk
+C0001,Platinum,2019-09-16,54,Male,Bengaluru,CA,High,7,591703,84529.0,Apple,0.5,0.05,1.17,High,56,No,Needs Attention,Low
+C0002,Gold,2021-02-08,35,Male,Hyderabad,Doctor,Medium,10,962008,96200.8,Sony,0.22,0.12,1.67,High,1,No,Critical,Low
+C0003,Bronze,2024-09-02,32,Male,Bengaluru,Business,Low,6,893587,148931.17,Apple,0.36,0.02,1.0,Medium,25,No,Critical,Low
+C0004,Gold,2025-06-19,37,Male,Bengaluru,Doctor,High,9,543387,60376.33,Bose,0.49,0.01,1.5,High,12,No,Needs Attention,Low
+C0005,Platinum,2023-03-25,41,Female,Delhi,Business,Low,8,734954,91869.25,Bose,0.44,0.09,1.33,High,27,No,Needs Attention,Low
+C0006,Gold,2020-11-12,59,Male,Hyderabad,Doctor,Low,7,494003,70571.86,Samsung,0.42,0.0,1.17,High,3,No,Needs Attention,Low
+C0007,Gold,2020-08-16,52,Female,Mumbai,Business,High,7,717977,102568.14,Samsung,0.4,0.04,1.17,Medium,11,No,Needs Attention,Low
+C0008,Gold,2020-01-14,37,Male,Delhi,Business,Low,10,1146662,114666.2,Samsung,0.38,0.06,1.67,High,13,No,Critical,Low
+C0009,Platinum,2022-04-07,29,Female,Mumbai,CA,High,7,1016241,145177.29,Sony,0.3,0.0,1.17,High,30,No,Critical,Low
+C0010,Gold,2024-02-14,45,Male,Bengaluru,Doctor,Low,4,492915,123228.75,Samsung,0.38,0.08,0.67,Medium,103,No,Critical,Low
+C0011,Silver,2023-09-25,39,Female,Bengaluru,Doctor,Low,8,804060,100507.5,Apple,0.43,0.16,1.33,High,53,No,Needs Attention,Low
+C0012,Bronze,2020-06-10,46,Male,Delhi,CA,High,8,730840,91355.0,Bose,0.49,0.08,1.33,Medium,34,No,Needs Attention,Low
+C0013,Silver,2024-07-25,36,Female,Mumbai,Engineer,Low,10,871684,87168.4,Sony,0.44,0.0,1.67,High,31,No,Needs Attention,Low
+C0014,Bronze,2021-05-16,26,Male,Hyderabad,Engineer,Medium,8,608255,76031.88,Apple,0.28,0.11,1.33,High,2,No,Critical,Low
+C0015,Bronze,2023-01-02,52,Male,Ahmedabad,Student,High,6,563759,93959.83,Bose,0.43,0.0,1.0,Medium,14,No,Needs Attention,Low
+C0016,Silver,2019-10-11,27,Female,Bengaluru,Doctor,Low,8,640622,80077.75,Google Nest,0.33,0.0,1.33,High,13,No,Critical,Low
+C0017,Platinum,2023-04-29,33,Male,Pune,Engineer,High,6,315947,52657.83,Apple,0.39,0.22,1.0,Medium,7,No,Critical,Low
+C0018,Silver,2023-05-19,46,Female,Ahmedabad,Doctor,Low,8,521715,65214.38,Bose,0.65,0.05,1.33,High,47,No,Needs Attention,Low
+C0019,Gold,2020-06-19,31,Female,Bengaluru,Doctor,Medium,4,266543,66635.75,Google Nest,0.25,0.04,0.67,Medium,32,No,Critical,Low
+C0020,Bronze,2022-02-11,60,Male,Mumbai,Manager,Medium,5,414773,82954.6,Sony,0.28,0.19,0.83,Medium,30,No,Critical,Low
+C0021,Gold,2024-06-04,60,Male,Mumbai,Business,Low,6,707040,117840.0,Samsung,0.42,0.11,1.0,Medium,42,No,Needs Attention,Low
+C0022,Gold,2024-04-17,59,Male,Hyderabad,Doctor,Low,9,681013,75668.11,Google Nest,0.35,0.11,1.5,High,9,No,Critical,Low
+C0023,Bronze,2021-06-08,58,Female,Bengaluru,Engineer,Low,8,650997,81374.62,Samsung,0.54,0.0,1.33,High,24,No,Needs Attention,Low
+C0024,Platinum,2021-04-05,49,Female,Bengaluru,Student,Medium,9,684625,76069.44,Apple,0.61,0.02,1.5,High,17,No,Needs Attention,Low
+C0025,Gold,2020-06-28,33,Female,Bengaluru,Business,High,5,372912,74582.4,Google Nest,0.53,0.13,0.83,Medium,83,No,Needs Attention,Low
+C0026,Gold,2020-11-03,42,Female,Hyderabad,CA,Low,7,854062,122008.86,Samsung,0.34,0.1,1.17,Medium,17,No,Critical,Low
+C0027,Bronze,2023-12-30,32,Male,Hyderabad,Engineer,High,9,841424,93491.56,Google Nest,0.39,0.08,1.5,High,5,No,Critical,Low
+C0028,Bronze,2023-05-16,54,Female,Delhi,CA,Medium,9,892377,99153.0,Bose,0.39,0.12,1.5,Medium,9,No,Critical,Low
+C0029,Gold,2019-12-02,39,Male,Ahmedabad,Business,High,6,758893,126482.17,Apple,0.58,0.01,1.0,Medium,48,No,Needs Attention,Low
+C0030,Bronze,2025-03-04,31,Male,Ahmedabad,CA,High,7,689303,98471.86,Sony,0.25,0.25,1.17,Medium,8,No,Critical,Low
+C0031,Gold,2023-10-03,56,Female,Bengaluru,Engineer,Medium,4,519677,129919.25,Sony,0.38,0.07,0.67,Medium,31,No,Critical,Low
+C0032,Gold,2022-01-13,39,Female,Mumbai,Manager,Medium,8,605183,75647.88,Samsung,0.37,0.0,1.33,High,51,No,Critical,Low
+C0033,Silver,2025-04-18,38,Male,Pune,Engineer,High,5,251388,50277.6,Apple,0.53,0.09,0.83,Medium,6,No,Needs Attention,Low
+C0034,Gold,2021-05-03,29,Male,Bengaluru,Engineer,High,5,502878,100575.6,Sony,0.48,0.35,0.83,Medium,33,No,Needs Attention,Low
+C0035,Bronze,2020-05-23,42,Male,Ahmedabad,CA,Medium,10,1155199,115519.9,Samsung,0.45,0.04,1.67,High,11,No,Needs Attention,Low
+C0036,Platinum,2022-12-07,57,Male,Delhi,Student,Medium,10,899404,89940.4,Apple,0.42,0.06,1.67,High,5,No,Needs Attention,Low
+C0037,Bronze,2024-07-10,37,Female,Delhi,Manager,Low,5,469671,93934.2,Sony,0.2,0.02,0.83,Medium,4,No,Critical,Low
+C0038,Silver,2020-05-04,50,Male,Bengaluru,Engineer,High,7,545076,77868.0,Bose,0.58,0.14,1.17,Medium,5,No,Needs Attention,Low
+C0039,Bronze,2021-06-26,28,Female,Ahmedabad,CA,Low,5,619994,123998.8,Sony,0.45,0.0,0.83,Medium,22,No,Needs Attention,Low
+C0040,Bronze,2022-07-25,29,Female,Ahmedabad,CA,High,7,421412,60201.71,Google Nest,0.4,0.01,1.17,Medium,17,No,Needs Attention,Low
+C0041,Gold,2022-02-14,60,Female,Hyderabad,Manager,High,7,493849,70549.86,Samsung,0.38,0.13,1.17,Medium,37,No,Critical,Low
+C0042,Gold,2024-11-29,44,Male,Ahmedabad,Business,Low,10,863358,86335.8,Apple,0.47,0.07,1.67,High,44,No,Needs Attention,Low
+C0043,Silver,2024-01-20,29,Female,Delhi,CA,Medium,8,781638,97704.75,Apple,0.45,0.06,1.33,High,30,No,Needs Attention,Low
+C0044,Gold,2024-07-21,53,Female,Ahmedabad,CA,High,7,499634,71376.29,Sony,0.52,0.09,1.17,High,4,No,Needs Attention,Low
+C0045,Silver,2019-09-09,29,Female,Mumbai,Doctor,Medium,7,716049,102292.71,Apple,0.45,0.01,1.17,Medium,43,No,Needs Attention,Low
+C0046,Bronze,2020-01-02,41,Male,Bengaluru,CA,High,6,494160,82360.0,Google Nest,0.35,0.08,1.0,Medium,10,No,Critical,Low
+C0047,Silver,2019-10-11,32,Male,Pune,Doctor,High,7,634013,90573.29,Apple,0.5,0.14,1.17,High,23,No,Needs Attention,Low
+C0048,Bronze,2021-06-25,47,Female,Mumbai,Student,Low,7,870467,124352.43,Bose,0.31,0.21,1.17,Medium,13,No,Critical,Low
+C0049,Bronze,2024-12-12,58,Male,Hyderabad,Business,High,5,541519,108303.8,Samsung,0.48,0.01,0.83,Medium,10,No,Needs Attention,Low
+C0050,Bronze,2024-12-16,46,Female,Bengaluru,Business,Low,7,530541,75791.57,Samsung,0.24,0.25,1.17,Medium,31,No,Critical,Low
+C0051,Silver,2020-10-18,27,Male,Bengaluru,Engineer,Low,7,725204,103600.57,Google Nest,0.59,0.0,1.17,High,12,No,Needs Attention,Low
+C0052,Platinum,2023-08-24,43,Male,Hyderabad,Doctor,High,4,384587,96146.75,Google Nest,0.2,0.4,0.67,Medium,40,No,Critical,Low
+C0053,Silver,2021-07-10,24,Male,Delhi,Doctor,Medium,7,315579,45082.71,Samsung,0.41,0.12,1.17,High,6,No,Needs Attention,Low
+C0054,Gold,2020-01-25,25,Female,Ahmedabad,Student,Low,7,584133,83447.57,Apple,0.22,0.17,1.17,Medium,30,No,Critical,Low
+C0055,Silver,2025-05-22,29,Male,Bengaluru,Business,High,6,614161,102360.17,Bose,0.47,0.15,1.0,Medium,77,No,Needs Attention,Low
+C0056,Gold,2019-11-18,30,Female,Pune,CA,Low,9,634117,70457.44,Sony,0.64,0.01,1.5,High,10,No,Needs Attention,Low
+C0057,Platinum,2025-03-22,28,Male,Hyderabad,CA,Medium,10,885273,88527.3,Google Nest,0.56,0.09,1.67,High,0,No,Needs Attention,Low
+C0058,Bronze,2024-10-07,25,Female,Delhi,Manager,Medium,9,723243,80360.33,Apple,0.67,0.0,1.5,Medium,10,No,Needs Attention,Low
+C0059,Gold,2024-03-03,51,Female,Pune,Business,Low,9,1002421,111380.11,Sony,0.32,0.02,1.5,High,34,No,Critical,Low
+C0060,Gold,2020-04-30,28,Female,Delhi,Student,Low,9,808809,89867.67,Samsung,0.45,0.08,1.5,High,6,No,Needs Attention,Low
+C0061,Gold,2020-02-26,51,Male,Bengaluru,Doctor,Medium,9,985043,109449.22,Google Nest,0.33,0.22,1.5,High,5,No,Critical,Low
+C0062,Silver,2020-04-04,26,Male,Pune,Business,Low,9,781227,86803.0,Bose,0.32,0.22,1.5,High,19,No,Critical,Low
+C0063,Platinum,2022-09-05,37,Female,Bengaluru,Engineer,Medium,5,323787,64757.4,Google Nest,0.36,0.11,0.83,Medium,19,No,Critical,Low
+C0064,Bronze,2022-02-12,32,Female,Ahmedabad,Manager,Low,7,576609,82372.71,Apple,0.49,0.12,1.17,Medium,1,No,Needs Attention,Low
+C0065,Gold,2024-08-11,57,Female,Ahmedabad,Manager,Low,4,592185,148046.25,Apple,0.54,0.0,0.67,Medium,10,No,Needs Attention,Low
+C0066,Bronze,2021-05-16,52,Female,Bengaluru,Engineer,High,10,584460,58446.0,Google Nest,0.5,0.02,1.67,High,36,No,Needs Attention,Low
+C0067,Silver,2025-02-07,43,Female,Pune,Doctor,Medium,7,641140,91591.43,Sony,0.48,0.03,1.17,Medium,89,No,Needs Attention,Low
+C0068,Bronze,2022-03-18,33,Male,Delhi,Doctor,Low,6,474408,79068.0,Google Nest,0.35,0.18,1.0,High,7,No,Critical,Low
+C0069,Bronze,2019-11-19,23,Female,Pune,Manager,Medium,9,1040069,115563.22,Google Nest,0.49,0.09,1.5,High,9,No,Needs Attention,Low
+C0070,Gold,2022-01-02,25,Female,Mumbai,Engineer,High,8,751725,93965.62,Google Nest,0.57,0.04,1.33,High,8,No,Needs Attention,Low
+C0071,Gold,2024-07-13,36,Female,Bengaluru,CA,Low,4,243820,60955.0,Google Nest,0.48,0.09,0.67,Medium,22,No,Needs Attention,Low
+C0072,Gold,2022-06-03,37,Female,Mumbai,Business,High,5,290633,58126.6,Samsung,0.53,0.0,0.83,Medium,25,No,Needs Attention,Low
+C0073,Gold,2024-07-25,57,Female,Ahmedabad,Student,Medium,9,814122,90458.0,Bose,0.42,0.07,1.5,High,13,No,Needs Attention,Low
+C0074,Bronze,2021-12-26,57,Male,Bengaluru,Business,Low,8,850765,106345.62,Sony,0.5,0.07,1.33,Medium,32,No,Needs Attention,Low
+C0075,Silver,2022-07-11,27,Male,Hyderabad,Student,Low,6,447223,74537.17,Google Nest,0.48,0.05,1.0,High,39,No,Needs Attention,Low
+C0076,Platinum,2025-03-13,54,Female,Hyderabad,Business,Medium,10,988977,98897.7,Apple,0.28,0.13,1.67,High,2,No,Critical,Low
+C0077,Silver,2021-09-03,37,Female,Delhi,CA,Medium,10,950669,95066.9,Samsung,0.3,0.14,1.67,High,2,No,Critical,Low
+C0078,Bronze,2021-10-03,54,Female,Delhi,Manager,Medium,9,687922,76435.78,Google Nest,0.48,0.02,1.5,Medium,1,No,Needs Attention,Low
+C0079,Platinum,2024-07-10,33,Male,Delhi,Student,Medium,8,700671,87583.88,Samsung,0.49,0.05,1.33,Medium,45,No,Needs Attention,Low
+C0080,Bronze,2024-08-04,49,Male,Delhi,CA,Medium,5,637092,127418.4,Samsung,0.37,0.0,0.83,Medium,26,No,Critical,Low
+C0081,Gold,2023-12-10,29,Female,Mumbai,Manager,High,4,376255,94063.75,Google Nest,0.29,0.03,0.67,Medium,32,No,Critical,Low
+C0082,Bronze,2024-10-08,26,Male,Pune,Student,High,7,823040,117577.14,Bose,0.34,0.23,1.17,Medium,46,No,Critical,Low
+C0083,Gold,2022-06-21,28,Male,Hyderabad,Doctor,High,6,684758,114126.33,Sony,0.62,0.07,1.0,Medium,12,No,Needs Attention,Low
+C0084,Silver,2022-09-10,37,Female,Ahmedabad,Business,Medium,6,423199,70533.17,Apple,0.44,0.0,1.0,Medium,53,No,Needs Attention,Low
+C0085,Gold,2021-02-11,55,Female,Ahmedabad,Manager,Medium,7,641844,91692.0,Apple,0.21,0.19,1.17,High,20,No,Critical,Low
+C0086,Bronze,2020-01-20,26,Male,Ahmedabad,Doctor,Medium,10,1076309,107630.9,Bose,0.4,0.02,1.67,High,46,No,Needs Attention,Low
+C0087,Gold,2020-02-17,58,Female,Hyderabad,Doctor,High,6,298695,49782.5,Apple,0.45,0.13,1.0,Medium,35,No,Needs Attention,Low
+C0088,Gold,2022-12-01,48,Female,Hyderabad,Doctor,Medium,9,907007,100778.56,Google Nest,0.47,0.08,1.5,High,5,No,Needs Attention,Low
+C0089,Silver,2023-10-17,46,Male,Mumbai,Doctor,Medium,8,503668,62958.5,Sony,0.31,0.2,1.33,High,47,No,Critical,Low
+C0090,Gold,2021-03-03,43,Male,Hyderabad,CA,Medium,4,319520,79880.0,Apple,0.38,0.05,0.67,Medium,39,No,Critical,Low
+C0091,Platinum,2024-04-17,57,Female,Delhi,Business,High,10,927441,92744.1,Bose,0.47,0.07,1.67,High,16,No,Needs Attention,Low
+C0092,Bronze,2024-03-22,43,Female,Hyderabad,Doctor,Low,5,366061,73212.2,Google Nest,0.34,0.05,0.83,Medium,52,No,Critical,Low
+C0093,Bronze,2019-10-18,59,Female,Mumbai,Doctor,Low,5,393387,78677.4,Google Nest,0.52,0.41,0.83,Medium,137,No,Needs Attention,Medium
+C0094,Gold,2023-06-21,43,Female,Mumbai,Business,Medium,6,563341,93890.17,Google Nest,0.5,0.14,1.0,High,35,No,Needs Attention,Low
+C0095,Bronze,2022-05-15,28,Male,Delhi,Engineer,Medium,8,573628,71703.5,Sony,0.38,0.28,1.33,Medium,42,No,Critical,Low
+C0096,Silver,2023-01-29,34,Male,Hyderabad,Manager,Low,10,754036,75403.6,Sony,0.48,0.09,1.67,High,27,No,Needs Attention,Low
+C0097,Platinum,2024-09-21,34,Female,Mumbai,Doctor,Low,4,456693,114173.25,Google Nest,0.28,0.39,0.67,Medium,43,No,Critical,Low
+C0098,Gold,2021-01-23,55,Female,Mumbai,Doctor,Low,4,377377,94344.25,Google Nest,0.24,0.03,0.67,Medium,26,No,Critical,Low
+C0099,Gold,2019-10-07,46,Male,Ahmedabad,Doctor,Low,10,1281849,128184.9,Google Nest,0.44,0.1,1.67,High,13,No,Needs Attention,Low
+C0100,Gold,2023-11-05,47,Female,Pune,Doctor,Medium,6,608638,101439.67,Bose,0.15,0.13,1.0,Medium,38,No,Critical,Low
+C0101,Platinum,2024-10-30,29,Male,Bengaluru,Doctor,Low,9,1007720,111968.89,Samsung,0.28,0.02,1.5,High,5,No,Critical,Low
+C0102,Bronze,2023-04-18,40,Male,Bengaluru,Business,Low,7,528620,75517.14,Sony,0.41,0.02,1.17,High,4,No,Needs Attention,Low
+C0103,Platinum,2022-02-24,31,Male,Ahmedabad,Manager,High,10,939258,93925.8,Sony,0.3,0.16,1.67,High,20,No,Critical,Low
+C0104,Bronze,2024-04-06,24,Male,Hyderabad,Engineer,Low,5,549217,109843.4,Google Nest,0.47,0.0,0.83,Medium,12,No,Needs Attention,Low
+C0105,Bronze,2023-09-11,45,Female,Bengaluru,Manager,Low,9,1141016,126779.56,Apple,0.24,0.17,1.5,Medium,33,No,Critical,Low
+C0106,Silver,2024-07-24,23,Female,Pune,Manager,Medium,4,392745,98186.25,Google Nest,0.43,0.22,0.67,Medium,27,No,Needs Attention,Low
+C0107,Platinum,2024-05-01,49,Female,Mumbai,Manager,Low,6,456754,76125.67,Bose,0.35,0.25,1.0,High,26,No,Critical,Low
+C0108,Silver,2020-03-31,36,Male,Ahmedabad,Business,High,8,1043382,130422.75,Sony,0.33,0.01,1.33,Medium,2,No,Critical,Low
+C0109,Silver,2021-04-09,23,Female,Pune,CA,Low,5,456622,91324.4,Samsung,0.3,0.1,0.83,Medium,16,No,Critical,Low
+C0110,Silver,2024-04-21,24,Female,Mumbai,Doctor,Medium,10,1092397,109239.7,Samsung,0.41,0.04,1.67,High,40,No,Needs Attention,Low
+C0111,Gold,2022-12-17,48,Male,Delhi,Manager,High,5,493808,98761.6,Sony,0.41,0.15,0.83,Medium,25,No,Needs Attention,Low
+C0112,Silver,2024-05-27,46,Female,Delhi,Student,Medium,4,169667,42416.75,Sony,0.37,0.0,0.67,Medium,36,No,Critical,Low
+C0113,Platinum,2020-11-03,28,Female,Ahmedabad,CA,Low,6,731593,121932.17,Google Nest,0.42,0.14,1.0,Medium,27,No,Needs Attention,Low
+C0114,Silver,2021-06-06,38,Female,Ahmedabad,Manager,Medium,8,462681,57835.12,Sony,0.34,0.12,1.33,High,113,No,Critical,Low
+C0115,Silver,2023-10-07,42,Male,Delhi,CA,Medium,7,787510,112501.43,Samsung,0.47,0.03,1.17,High,34,No,Needs Attention,Low
+C0116,Gold,2023-08-27,39,Male,Pune,Doctor,Low,8,825159,103144.88,Apple,0.57,0.03,1.33,High,0,No,Needs Attention,Low
+C0117,Silver,2023-03-30,60,Male,Delhi,Business,Low,10,737229,73722.9,Sony,0.38,0.12,1.67,High,6,No,Critical,Low
+C0118,Silver,2022-05-01,33,Male,Pune,Student,High,10,852824,85282.4,Google Nest,0.41,0.05,1.67,High,8,No,Needs Attention,Low
+C0119,Gold,2024-07-09,53,Female,Bengaluru,Business,Medium,10,1430629,143062.9,Bose,0.33,0.05,1.67,High,6,No,Critical,Low
+C0120,Gold,2022-06-15,31,Male,Delhi,Doctor,Low,6,569730,94955.0,Sony,0.46,0.16,1.0,Medium,14,No,Needs Attention,Low
+C0121,Gold,2023-05-06,37,Female,Pune,Engineer,Medium,6,349174,58195.67,Sony,0.54,0.2,1.0,Medium,22,No,Needs Attention,Low
+C0122,Platinum,2024-04-05,29,Male,Hyderabad,Doctor,Low,8,372476,46559.5,Google Nest,0.62,0.01,1.33,Medium,10,No,Needs Attention,Low
+C0123,Gold,2019-09-13,46,Female,Delhi,CA,Medium,9,671325,74591.67,Apple,0.33,0.17,1.5,High,2,No,Critical,Low
+C0124,Bronze,2020-12-16,33,Female,Pune,CA,High,8,724827,90603.38,Samsung,0.5,0.0,1.33,High,15,No,Needs Attention,Low
+C0125,Gold,2021-09-07,37,Female,Bengaluru,Doctor,Medium,7,449413,64201.86,Sony,0.43,0.16,1.17,High,37,No,Needs Attention,Low
+C0126,Gold,2021-05-12,36,Male,Mumbai,Engineer,Medium,8,657532,82191.5,Sony,0.43,0.04,1.33,High,16,No,Needs Attention,Low
+C0127,Gold,2020-11-29,45,Male,Delhi,Business,Low,8,649235,81154.38,Apple,0.38,0.14,1.33,Medium,17,No,Critical,Low
+C0128,Bronze,2020-07-16,33,Male,Ahmedabad,CA,High,5,563286,112657.2,Apple,0.47,0.05,0.83,Medium,14,No,Needs Attention,Low
+C0129,Bronze,2024-11-15,32,Male,Pune,Manager,High,4,455927,113981.75,Google Nest,0.34,0.13,0.67,Medium,0,No,Critical,Low
+C0130,Platinum,2022-07-12,29,Female,Delhi,Engineer,High,10,803601,80360.1,Bose,0.34,0.03,1.67,High,2,No,Critical,Low
+C0131,Bronze,2021-05-05,36,Female,Pune,Doctor,Medium,5,524227,104845.4,Apple,0.43,0.01,0.83,Medium,37,No,Needs Attention,Low
+C0132,Bronze,2023-04-04,52,Female,Pune,Engineer,Low,7,668967,95566.71,Sony,0.51,0.06,1.17,Medium,17,No,Needs Attention,Low
+C0133,Bronze,2020-10-18,55,Female,Bengaluru,CA,High,7,510322,72903.14,Sony,0.26,0.17,1.17,Medium,56,No,Critical,Low
+C0134,Silver,2021-03-16,39,Male,Ahmedabad,Doctor,Low,8,702359,87794.88,Apple,0.28,0.12,1.33,High,18,No,Critical,Low
+C0135,Silver,2020-09-21,37,Female,Delhi,Doctor,Medium,5,606871,121374.2,Apple,0.32,0.0,0.83,Medium,15,No,Critical,Low
+C0136,Silver,2020-11-15,44,Male,Bengaluru,Business,Low,10,1176274,117627.4,Google Nest,0.5,0.08,1.67,High,8,No,Needs Attention,Low
+C0137,Gold,2023-10-19,46,Female,Pune,Doctor,Medium,7,602027,86003.86,Samsung,0.41,0.08,1.17,Medium,6,No,Needs Attention,Low
+C0138,Platinum,2021-11-09,23,Female,Ahmedabad,Engineer,Medium,5,520619,104123.8,Google Nest,0.42,0.02,0.83,Medium,7,No,Needs Attention,Low
+C0139,Bronze,2025-05-08,46,Male,Hyderabad,CA,Low,6,590657,98442.83,Apple,0.31,0.21,1.0,Medium,60,No,Critical,Low
+C0140,Platinum,2024-10-02,48,Male,Ahmedabad,Manager,Low,10,1119166,111916.6,Google Nest,0.48,0.13,1.67,High,11,No,Needs Attention,Low
+C0141,Gold,2021-04-11,28,Male,Delhi,CA,Medium,8,796451,99556.38,Bose,0.44,0.05,1.33,High,4,No,Needs Attention,Low
+C0142,Silver,2024-04-11,32,Male,Hyderabad,Engineer,High,4,351854,87963.5,Samsung,0.47,0.16,0.67,Medium,4,No,Needs Attention,Low
+C0143,Platinum,2020-11-08,35,Male,Bengaluru,Doctor,Low,8,483297,60412.12,Samsung,0.25,0.36,1.33,Medium,53,No,Critical,Low
+C0144,Gold,2021-05-13,23,Female,Ahmedabad,Manager,High,9,768216,85357.33,Bose,0.52,0.11,1.5,High,31,No,Needs Attention,Low
+C0145,Bronze,2023-09-10,33,Female,Delhi,Doctor,High,10,1105890,110589.0,Google Nest,0.36,0.12,1.67,High,37,No,Critical,Low
+C0146,Silver,2023-03-12,52,Male,Hyderabad,Doctor,Low,7,649733,92819.0,Apple,0.65,0.08,1.17,High,22,No,Needs Attention,Low
+C0147,Gold,2025-02-09,46,Male,Bengaluru,Student,Low,7,555210,79315.71,Bose,0.38,0.08,1.17,High,0,No,Critical,Low
+C0148,Gold,2019-12-24,23,Female,Pune,CA,Medium,7,759500,108500.0,Samsung,0.45,0.03,1.17,Medium,10,No,Needs Attention,Low
+C0149,Silver,2020-02-08,29,Male,Delhi,Doctor,Medium,8,789633,98704.12,Sony,0.46,0.03,1.33,High,0,No,Needs Attention,Low
+C0150,Bronze,2023-04-25,28,Male,Delhi,Business,Low,6,581797,96966.17,Google Nest,0.51,0.04,1.0,Medium,11,No,Needs Attention,Low
+C0151,Silver,2024-07-19,24,Female,Ahmedabad,Student,Medium,8,511882,63985.25,Sony,0.28,0.26,1.33,High,30,No,Critical,Low
+C0152,Gold,2025-04-24,59,Female,Mumbai,Student,Medium,7,666985,95283.57,Sony,0.45,0.13,1.17,High,19,No,Needs Attention,Low
+C0153,Gold,2023-04-15,43,Female,Ahmedabad,Student,Low,5,356844,71368.8,Google Nest,0.48,0.0,0.83,Medium,21,No,Needs Attention,Low
+C0154,Bronze,2021-04-26,56,Male,Delhi,Doctor,Low,4,171249,42812.25,Samsung,0.34,0.05,0.67,Medium,13,No,Critical,Low
+C0155,Platinum,2023-01-07,34,Female,Delhi,Doctor,Low,6,813600,135600.0,Apple,0.48,0.01,1.0,High,28,No,Needs Attention,Low
+C0156,Silver,2022-01-15,23,Male,Ahmedabad,Student,Low,6,601878,100313.0,Apple,0.51,0.03,1.0,High,57,No,Needs Attention,Low
+C0157,Bronze,2025-03-12,29,Female,Mumbai,CA,Low,7,574172,82024.57,Sony,0.51,0.06,1.17,Medium,5,No,Needs Attention,Low
+C0158,Gold,2021-11-13,26,Female,Delhi,CA,High,7,651499,93071.29,Samsung,0.47,0.09,1.17,Medium,0,No,Needs Attention,Low
+C0159,Gold,2019-10-23,56,Male,Bengaluru,Manager,Medium,4,286604,71651.0,Sony,0.44,0.07,0.67,Medium,2,No,Needs Attention,Low
+C0160,Gold,2024-09-01,57,Male,Pune,Engineer,Low,9,781863,86873.67,Apple,0.38,0.02,1.5,Medium,15,No,Critical,Low
+C0161,Platinum,2020-08-04,25,Male,Mumbai,Engineer,Medium,4,555174,138793.5,Google Nest,0.38,0.0,0.67,Medium,0,No,Critical,Low
+C0162,Platinum,2020-06-28,41,Female,Ahmedabad,CA,Low,9,1111410,123490.0,Samsung,0.43,0.19,1.5,High,29,No,Needs Attention,Low
+C0163,Silver,2022-12-30,52,Female,Bengaluru,Manager,High,4,289440,72360.0,Samsung,0.14,0.2,0.67,Medium,57,No,Critical,Low
+C0164,Silver,2025-06-09,22,Male,Delhi,Business,Medium,4,349950,87487.5,Google Nest,0.28,0.04,0.67,Medium,64,No,Critical,Low
+C0165,Gold,2023-03-30,45,Male,Hyderabad,Doctor,Low,5,526488,105297.6,Apple,0.45,0.01,0.83,Medium,7,No,Needs Attention,Low
+C0166,Bronze,2019-09-22,27,Male,Bengaluru,Manager,Low,7,435883,62269.0,Samsung,0.42,0.22,1.17,Medium,62,No,Needs Attention,Low
+C0167,Gold,2023-06-05,40,Female,Delhi,Student,Medium,7,582207,83172.43,Samsung,0.29,0.18,1.17,Medium,49,No,Critical,Low
+C0168,Silver,2021-01-20,54,Male,Ahmedabad,Doctor,Low,10,875737,87573.7,Sony,0.3,0.19,1.67,High,48,No,Critical,Low
+C0169,Silver,2021-11-06,56,Female,Ahmedabad,Student,High,9,870288,96698.67,Google Nest,0.42,0.09,1.5,High,19,No,Needs Attention,Low
+C0170,Silver,2022-11-15,38,Male,Pune,CA,Low,4,273318,68329.5,Bose,0.31,0.36,0.67,Medium,51,No,Critical,Low
+C0171,Silver,2025-02-26,38,Male,Delhi,Manager,High,8,805297,100662.12,Sony,0.25,0.14,1.33,Medium,33,No,Critical,Low
+C0172,Gold,2021-04-06,31,Male,Delhi,Business,Low,6,855247,142541.17,Samsung,0.61,0.14,1.0,Medium,17,No,Needs Attention,Low
+C0173,Gold,2023-03-16,55,Male,Pune,Business,Medium,4,423412,105853.0,Samsung,0.42,0.19,0.67,Medium,68,No,Needs Attention,Low
+C0174,Gold,2024-09-20,40,Female,Pune,CA,Low,6,328538,54756.33,Apple,0.41,0.01,1.0,Medium,10,No,Needs Attention,Low
+C0175,Platinum,2021-10-19,55,Male,Delhi,CA,Medium,7,571444,81634.86,Samsung,0.56,0.0,1.17,Medium,20,No,Needs Attention,Low
+C0176,Platinum,2020-09-24,40,Male,Bengaluru,Business,Low,8,715455,89431.88,Sony,0.5,0.21,1.33,High,0,No,Needs Attention,Low
+C0177,Gold,2023-04-07,53,Male,Hyderabad,Doctor,Low,4,316988,79247.0,Google Nest,0.4,0.03,0.67,Medium,34,No,Needs Attention,Low
+C0178,Gold,2025-06-13,40,Female,Pune,Engineer,Medium,9,1063472,118163.56,Apple,0.32,0.09,1.5,High,0,No,Critical,Low
+C0179,Silver,2020-09-30,55,Female,Pune,Student,Medium,6,545857,90976.17,Samsung,0.24,0.08,1.0,Medium,5,No,Critical,Low
+C0180,Platinum,2021-08-04,34,Female,Ahmedabad,Doctor,Medium,5,506257,101251.4,Apple,0.26,0.28,0.83,Medium,36,No,Critical,Low
+C0181,Gold,2021-09-08,58,Female,Delhi,Engineer,Low,8,728347,91043.38,Google Nest,0.41,0.04,1.33,High,9,No,Needs Attention,Low
+C0182,Gold,2021-09-04,34,Male,Ahmedabad,CA,High,6,681265,113544.17,Apple,0.48,0.11,1.0,Medium,22,No,Needs Attention,Low
+C0183,Silver,2025-02-26,54,Female,Hyderabad,Engineer,High,7,657729,93961.29,Sony,0.38,0.13,1.17,High,93,No,Critical,Low
+C0184,Bronze,2020-02-16,22,Female,Delhi,Engineer,Medium,8,703779,87972.38,Apple,0.33,0.24,1.33,Medium,65,No,Critical,Low
+C0185,Platinum,2021-03-24,60,Male,Delhi,Doctor,High,10,1043071,104307.1,Bose,0.49,0.02,1.67,High,2,No,Needs Attention,Low
+C0186,Platinum,2021-03-13,50,Male,Hyderabad,Student,Medium,8,919913,114989.12,Apple,0.33,0.06,1.33,Medium,16,No,Critical,Low
+C0187,Gold,2020-03-01,44,Female,Mumbai,Student,High,8,640148,80018.5,Sony,0.59,0.01,1.33,Medium,4,No,Needs Attention,Low
+C0188,Gold,2024-12-26,57,Male,Mumbai,Student,High,5,495855,99171.0,Samsung,0.47,0.14,0.83,Medium,56,No,Needs Attention,Low
+C0189,Silver,2020-07-09,29,Male,Bengaluru,Business,Low,7,783386,111912.29,Bose,0.41,0.05,1.17,Medium,60,No,Needs Attention,Low
+C0190,Gold,2023-08-14,39,Female,Mumbai,Doctor,High,4,326714,81678.5,Samsung,0.35,0.0,0.67,Medium,40,No,Critical,Low
+C0191,Silver,2022-05-29,56,Female,Pune,CA,Low,4,248588,62147.0,Samsung,0.61,0.11,0.67,Medium,0,No,Needs Attention,Low
+C0192,Bronze,2021-12-07,48,Female,Ahmedabad,Doctor,Medium,8,867057,108382.12,Sony,0.65,0.02,1.33,High,17,No,Needs Attention,Low
+C0193,Platinum,2019-09-23,51,Male,Pune,Student,High,10,871198,87119.8,Sony,0.38,0.08,1.67,High,15,No,Critical,Low
+C0194,Gold,2020-07-22,30,Male,Pune,Manager,Medium,4,440644,110161.0,Samsung,0.34,0.29,0.67,Medium,58,No,Critical,Low
+C0195,Bronze,2020-09-21,34,Female,Ahmedabad,CA,Medium,6,533699,88949.83,Apple,0.2,0.34,1.0,Medium,66,No,Critical,Low
+C0196,Platinum,2025-01-07,24,Female,Ahmedabad,Engineer,Low,10,903744,90374.4,Bose,0.37,0.16,1.67,High,19,No,Critical,Low
+C0197,Platinum,2022-04-28,31,Male,Bengaluru,Manager,Medium,7,584800,83542.86,Sony,0.44,0.07,1.17,High,7,No,Needs Attention,Low
+C0198,Bronze,2023-10-23,36,Female,Bengaluru,CA,Medium,5,405198,81039.6,Google Nest,0.41,0.01,0.83,Medium,21,No,Needs Attention,Low
+C0199,Bronze,2020-11-14,45,Male,Pune,CA,Medium,7,576918,82416.86,Bose,0.27,0.02,1.17,Medium,20,No,Critical,Low
+C0200,Platinum,2022-07-22,50,Male,Delhi,Doctor,High,7,797916,113988.0,Google Nest,0.3,0.03,1.17,Medium,7,No,Critical,Low

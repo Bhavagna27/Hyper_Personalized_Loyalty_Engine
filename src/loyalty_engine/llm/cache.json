@@ -1,0 +1,9 @@
+{
+  "{\"Business Insight\": \"Focus on retention\", \"Cluster\": 2, \"Customer_ID\": \"C100\", \"Expected Impact\": \"Strong\", \"Favorite Category\": \"Travel\", \"Membership Tier\": \"Gold\", \"Persona\": \"High Value\", \"Reward Scores\": [0.95, 0.87], \"Top 3 Rewards\": [\"Free Shipping\", \"Bonus Points\"]}": {
+    "customer_insight": "Customer profile indicates High Value behavior in cluster 2.",
+    "business_justification": "These recommendations were selected because the structured profile supports the following rewards: Free Shipping, Bonus Points.",
+    "customer_message": "We have selected rewards tailored to your profile, including Free Shipping, Bonus Points.",
+    "retention_strategy": "Maintain engagement with timely, relevant offers aligned to the customer profile.",
+    "upsell_opportunity": "Use the recommended rewards to deepen engagement and encourage continued spending."
+  }
+}

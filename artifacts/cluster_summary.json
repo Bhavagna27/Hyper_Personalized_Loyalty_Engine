@@ -1,0 +1,104 @@
+{
+  "optimal_k": 3,
+  "justification": "K=3 offered the strongest balance of clustering quality and business interpretability. Its Silhouette Score of 0.1871 was within 0.05 of the best observed values, and its persona-based separation scored 0.8288 across spend, frequency, reward behavior, engagement, online activity, diversity, and CLV.",
+  "overall_inertia": 1425.6010141158117,
+  "overall_silhouette_score": 0.1870862179057176,
+  "cluster_sizes": {
+    "0": 68,
+    "1": 94,
+    "2": 38
+  },
+  "personas": {
+    "0": "Digital Explorer",
+    "1": "Luxury Lifestyle",
+    "2": "Value Shopper"
+  },
+  "k_evaluation": {
+    "inertias": {
+      "2": 1568.0997131446406,
+      "3": 1425.6010141158117,
+      "4": 1322.0077336059428,
+      "5": 1232.9569459251502,
+      "6": 1159.045201353203,
+      "7": 1086.094612163094,
+      "8": 1042.1270106845445
+    },
+    "silhouette_scores": {
+      "2": 0.20158845312366944,
+      "3": 0.1870862179057176,
+      "4": 0.16241236151755284,
+      "5": 0.13077171078693334,
+      "6": 0.12366387022144597,
+      "7": 0.13376280011782543,
+      "8": 0.13667792832055034
+    }
+  },
+  "cluster_profiles": [
+    {
+      "cluster_id": 0,
+      "persona": "Digital Explorer",
+      "persona_explanation": "Assigned as Digital Explorer because the cluster is above the population baseline on spend (0.76x), frequency (0.76x), reward utilization (0.97x), engagement (0.92x), online ratio (1.06x), diversity (0.91x), and CLV (0.73x), while also showing Low churn risk and Gold membership.",
+      "cluster_size": 68,
+      "percentage_of_customers": 34.0,
+      "average_spend": 494737.41,
+      "purchase_frequency": 0.89,
+      "average_order_value": 92907.19,
+      "favorite_category": "Audio",
+      "favorite_brand": "Google Nest",
+      "reward_utilization_pct": 39.81,
+      "customer_engagement_score": 65.35,
+      "membership_tier_dominant": "Gold",
+      "membership_tier_distribution": "Gold: 39.7%, Bronze: 30.9%, Platinum: 16.2%, Silver: 13.2%",
+      "churn_risk_dominant": "Low",
+      "churn_risk_distribution": "Low: 100.0%",
+      "online_purchase_ratio": 0.7031,
+      "category_diversity": 3.1,
+      "average_customer_ltv": 3918235.54,
+      "business_summary": "This cluster shows a digital-first pattern with 70.3% of purchases made online or through the app and strong engagement (65.3/100). Its behavior suggests a customer who responds well to digital journeys and app-led promotions."
+    },
+    {
+      "cluster_id": 1,
+      "persona": "Luxury Lifestyle",
+      "persona_explanation": "Assigned as Luxury Lifestyle because the cluster is above the population baseline on spend (1.25x), frequency (1.22x), reward utilization (1.03x), engagement (1.07x), online ratio (1.01x), diversity (1.05x), and CLV (1.26x), while also showing Low churn risk and Gold membership.",
+      "cluster_size": 94,
+      "percentage_of_customers": 47.0,
+      "average_spend": 814101.36,
+      "purchase_frequency": 1.43,
+      "average_order_value": 94603.1,
+      "favorite_category": "Audio",
+      "favorite_brand": "Apple",
+      "reward_utilization_pct": 42.26,
+      "customer_engagement_score": 76.21,
+      "membership_tier_dominant": "Gold",
+      "membership_tier_distribution": "Gold: 34.0%, Silver: 26.6%, Platinum: 20.2%, Bronze: 19.1%",
+      "churn_risk_dominant": "Low",
+      "churn_risk_distribution": "Low: 100.0%",
+      "online_purchase_ratio": 0.6672,
+      "category_diversity": 3.61,
+      "average_customer_ltv": 6754611.89,
+      "business_summary": "This cluster is the highest-value group on spend and CLV, with strong diversification and premium-tier membership patterns. Its high engagement (76.2/100) and low churn risk make it a strong fit for curated, high-end offers."
+    },
+    {
+      "cluster_id": 2,
+      "persona": "Value Shopper",
+      "persona_explanation": "Assigned as Value Shopper because the cluster is above the population baseline on spend (0.81x), frequency (0.89x), reward utilization (0.98x), engagement (0.96x), online ratio (0.88x), diversity (1.04x), and CLV (0.83x), while also showing Low churn risk and Silver membership.",
+      "cluster_size": 38,
+      "percentage_of_customers": 19.0,
+      "average_spend": 525404.55,
+      "purchase_frequency": 1.04,
+      "average_order_value": 84442.15,
+      "favorite_category": "Audio",
+      "favorite_brand": "Samsung",
+      "reward_utilization_pct": 40.02,
+      "customer_engagement_score": 67.78,
+      "membership_tier_dominant": "Silver",
+      "membership_tier_distribution": "Silver: 31.6%, Gold: 28.9%, Bronze: 28.9%, Platinum: 10.5%",
+      "churn_risk_dominant": "Low",
+      "churn_risk_distribution": "Low: 97.4%, Medium: 2.6%",
+      "online_purchase_ratio": 0.5851,
+      "category_diversity": 3.55,
+      "average_customer_ltv": 4411983.13,
+      "business_summary": "This cluster is driven by reward redemption and shopping frequency rather than raw spend alone. With reward utilization at 40.0% and moderate-to-high purchase frequency, it is well-suited to value-focused incentives."
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+reward_id,reward_name,category,description,eligibility_tags,business_priority,cost_score,expected_roi
+R001,Cashback,Cashback,Direct cashback on eligible purchases.,"cashback,value,retention",8,4,0.16
+R002,Reward Points,Reward Points,Bonus loyalty points for repeat purchases.,"points,loyalty,value",7,5,0.14
+R003,Air Miles,Air Miles,Travel-oriented miles for frequent travelers.,"travel,premium,loyalty",6,6,0.12
+R004,Airport Lounge Access,Travel,Priority lounge access for high-value travelers.,"travel,premium,lounge",9,7,0.18
+R005,Fuel Cashback,Fuel Cashback,Fuel-specific cashback for frequent drivers.,"cashback,fuel,value",5,4,0.13
+R006,Dining Offers,Dining,Dining-related promotions and discounts.,"dining,engagement,shopping",6,3,0.11
+R007,Shopping Vouchers,Shopping,Vouchers for retail and online shopping.,"shopping,retention,value",7,4,0.15
+R008,Lifestyle Offers,Lifestyle,Curated lifestyle rewards for premium customers.,"lifestyle,premium,engagement",8,6,0.17
+R009,Travel Cashback,Travel Cashback,Travel-related cashback for high-intent travelers.,"travel,cashback,premium",7,5,0.15
+R010,Hotel Discounts,Hotel,Discounted hotel stays for premium travelers.,"travel,premium,hotel",8,6,0.17
+R011,Electronics Discounts,Electronics,Discounts on electronics and smart devices.,"electronics,digital,premium",7,5,0.16

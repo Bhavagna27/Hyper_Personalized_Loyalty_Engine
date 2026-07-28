@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+.pytest_cache/
+.coverage
+htmlcov/
+.coverage.*
+*.cover
+*.py,cover
+.hypothesis/
+
+# Virtual environment
+.venv/
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Streamlit
+streamlit-*.out.log
+streamlit-*.err.log
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs
+*.log
+reports/logs/
+
+# OS
+Thumbs.db
+Desktop.ini
+
+# Dataset files (large)
+data/*.xlsx
+data/*.xls
+
+# Environment variables
+.env
+.env.*
