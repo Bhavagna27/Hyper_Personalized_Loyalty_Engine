@@ -58,11 +58,16 @@ class LLMRecommendationPersonalizer:
                     return result
                 except Exception as exc:  # pragma: no cover - runtime fallback
                     last_error = exc
-                    logger.warning("LLM attempt %s failed: %s", attempt + 1, exc)
+                    logger.warning("LLM attempt %s of %s failed: %s", attempt + 1, self.max_retries, exc)
             if last_error is not None:
                 raise last_error
-        except Exception as exc:  # pragma: no cover - runtime fallback
-            logger.warning("LLM generation failed, using fallback: %s", exc)
+            raise RuntimeError(f"No LLM attempt was made (max_retries={self.max_retries}).")
+        except Exception:  # pragma: no cover - runtime fallback
+            logger.exception(
+                "LLM generation failed for customer %s after %s attempt(s); using deterministic fallback copy.",
+                payload.get("Customer_ID", "unknown"),
+                self.max_retries,
+            )
             result = self._fallback_message(payload)
             self._write_cache(cache_key, result)
             return result
@@ -127,7 +132,20 @@ class LLMRecommendationPersonalizer:
     def _parse_response(self, content: str, payload: dict[str, Any]) -> dict[str, Any]:
         try:
             parsed = json.loads(content)
-        except json.JSONDecodeError:
+        except json.JSONDecodeError as exc:
+            logger.warning(
+                "LLM response for customer %s was not valid JSON (%s); falling back to templated copy.",
+                payload.get("Customer_ID", "unknown"),
+                exc,
+            )
+            parsed = {}
+
+        if not isinstance(parsed, dict):
+            logger.warning(
+                "LLM response for customer %s was %s, expected a JSON object; falling back to templated copy.",
+                payload.get("Customer_ID", "unknown"),
+                type(parsed).__name__,
+            )
             parsed = {}
 
         return {
@@ -202,26 +220,29 @@ class LLMRecommendationPersonalizer:
     def _cache_key(self, payload: dict[str, Any]) -> str:
         return json.dumps(payload, sort_keys=True, default=str)
 
-    def _read_cache(self, cache_key: str) -> dict[str, Any] | None:
-        cache_path = Path(__file__).resolve().parent / "cache.json"
-        try:
-            data = read_json(cache_path)
-        except Exception:
-            return None
-        if not isinstance(data, dict):
-            return None
-        return data.get(cache_key)
-
-    def _write_cache(self, cache_key: str, result: dict[str, Any]) -> None:
+    def _load_cache(self) -> dict[str, Any]:
         cache_path = Path(__file__).resolve().parent / "cache.json"
         try:
             data = read_json(cache_path, default={})
-        except Exception:
-            data = {}
+        except (OSError, json.JSONDecodeError) as exc:
+            logger.warning("Ignoring unreadable LLM cache at %s: %s", cache_path, exc)
+            return {}
         if not isinstance(data, dict):
-            data = {}
+            logger.warning("Ignoring LLM cache at %s: expected a JSON object.", cache_path)
+            return {}
+        return data
+
+    def _read_cache(self, cache_key: str) -> dict[str, Any] | None:
+        return self._load_cache().get(cache_key)
+
+    def _write_cache(self, cache_key: str, result: dict[str, Any]) -> None:
+        cache_path = Path(__file__).resolve().parent / "cache.json"
+        data = self._load_cache()
         data[cache_key] = result
-        write_json(data, cache_path)
+        try:
+            write_json(data, cache_path)
+        except OSError as exc:
+            logger.warning("Could not persist LLM cache to %s: %s", cache_path, exc)
 
 
 def generate_message(customer_payload: dict[str, Any]) -> dict[str, Any]:

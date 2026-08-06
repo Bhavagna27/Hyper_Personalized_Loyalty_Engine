@@ -24,6 +24,12 @@ from loyalty_engine.validation import validate_workbook
 
 logger = logging.getLogger(__name__)
 
+_DEFAULT_DISTANCE_STATISTICS: dict[str, float] = {
+    "min_distance": 0.0,
+    "max_distance": 1.0,
+    "average_distance": 0.0,
+}
+
 
 class NewCustomerPredictor:
     """Reusable prediction entry point for brand-new customers.
@@ -55,6 +61,7 @@ class NewCustomerPredictor:
         """Predict cluster/persona/rewards for a single new customer profile."""
         customer_frame = self._coerce_to_profile_frame(profile)
         if customer_frame.empty:
+            logger.warning("Received an empty customer profile; returning an empty prediction.")
             return {
                 "customer_id": None,
                 "predicted_cluster": None,
@@ -244,19 +251,43 @@ class NewCustomerPredictor:
         return features
 
     def _load_feature_pipeline(self) -> Any | None:
-        return load_joblib(self.feature_pipeline_path)
+        pipeline = load_joblib(self.feature_pipeline_path)
+        if pipeline is None:
+            logger.warning(
+                "Feature pipeline artifact not found at %s; falling back to on-the-fly feature engineering.",
+                self.feature_pipeline_path,
+            )
+        return pipeline
 
     def _load_feature_metadata(self) -> dict[str, Any] | None:
-        return read_json(PATHS.feature_metadata_path)
+        metadata = read_json(PATHS.feature_metadata_path)
+        if metadata is None:
+            logger.warning(
+                "Feature metadata not found at %s; input columns will not be aligned with training.",
+                PATHS.feature_metadata_path,
+            )
+        return metadata
 
     def _load_segmentation_bundle(self) -> Any:
         return load_joblib(self.kmeans_model_path, must_exist=True)
 
     def _load_cluster_profiles(self) -> pd.DataFrame | None:
-        return read_csv(self.cluster_profiles_path)
+        profiles = read_csv(self.cluster_profiles_path)
+        if profiles is None:
+            logger.warning(
+                "Cluster profiles not found at %s; personas may be reported as 'Unknown'.",
+                self.cluster_profiles_path,
+            )
+        return profiles
 
     def _load_cluster_statistics(self) -> pd.DataFrame | None:
-        return read_csv(self.cluster_statistics_path)
+        statistics = read_csv(self.cluster_statistics_path)
+        if statistics is None:
+            logger.warning(
+                "Cluster statistics not found at %s; cluster-level metrics will be omitted.",
+                self.cluster_statistics_path,
+            )
+        return statistics
 
     def _load_or_compute_distance_statistics(self) -> dict[str, float]:
         stats_path = self.cluster_statistics_path.parent / "cluster_distance_stats.json"
@@ -264,12 +295,24 @@ class NewCustomerPredictor:
         if cached_stats is not None:
             return cached_stats
 
-        training_features = read_csv(PATHS.customer_features_path)
+        training_features_path = PATHS.customer_features_path
+        training_features = read_csv(training_features_path)
         if training_features is None:
-            return {"min_distance": 0.0, "max_distance": 1.0, "average_distance": 0.0}
+            logger.warning(
+                "Training features not found at %s; similarity scores fall back to the unit distance scale.",
+                training_features_path,
+            )
+            return _DEFAULT_DISTANCE_STATISTICS.copy()
+
         available_features = [feature for feature in SEGMENTATION_FEATURES if feature in training_features.columns]
         if len(available_features) < 1:
-            return {"min_distance": 0.0, "max_distance": 1.0, "average_distance": 0.0}
+            logger.warning(
+                "None of the segmentation features %s are present in %s; similarity scores fall back "
+                "to the unit distance scale.",
+                list(SEGMENTATION_FEATURES),
+                training_features_path,
+            )
+            return _DEFAULT_DISTANCE_STATISTICS.copy()
 
         scaled = self.segmentation_bundle.scaler.transform(training_features[available_features])
         all_distances = self.segmentation_bundle.kmeans_model.transform(scaled)
@@ -280,7 +323,10 @@ class NewCustomerPredictor:
             "average_distance": float(np.mean(centroid_distances)),
         }
 
-        write_json(stats, stats_path)
+        try:
+            write_json(stats, stats_path)
+        except OSError as exc:
+            logger.warning("Could not cache cluster distance statistics to %s: %s", stats_path, exc)
 
         if self.cluster_statistics is not None:
             updated_statistics = self.cluster_statistics.copy()

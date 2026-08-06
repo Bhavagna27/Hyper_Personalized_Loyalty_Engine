@@ -1,12 +1,15 @@
 from __future__ import annotations
 
 import ast
+import logging
 from typing import Any
 
 import pandas as pd
 import streamlit as st
 
 from .data import extract_reward_names, extract_scores
+
+logger = logging.getLogger(__name__)
 
 
 def _safe_parse(value: Any) -> Any:
@@ -20,7 +23,8 @@ def _safe_parse(value: Any) -> Any:
             return None
         try:
             return ast.literal_eval(text)
-        except Exception:
+        except (ValueError, SyntaxError, TypeError, MemoryError, RecursionError):
+            logger.debug("Value %r is not a Python literal; rendering it as text.", text)
             return text
     return value
 
