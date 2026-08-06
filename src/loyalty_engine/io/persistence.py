@@ -14,6 +14,8 @@ from typing import Any
 import joblib
 import pandas as pd
 
+from loyalty_engine.security import load_artifact
+
 __all__ = [
     "ensure_dir",
     "ensure_parent",
@@ -83,7 +85,7 @@ def dump_joblib(obj: Any, path: str | Path) -> Path:
 
 
 def load_joblib(path: str | Path, *, default: Any = None, must_exist: bool = False) -> Any:
-    """Load a ``joblib`` artifact from *path*.
+    """Load a ``joblib`` artifact from a trusted directory.
 
     If the file is absent, raise ``FileNotFoundError`` when *must_exist* is
     set, otherwise return *default*.
@@ -93,4 +95,4 @@ def load_joblib(path: str | Path, *, default: Any = None, must_exist: bool = Fal
         if must_exist:
             raise FileNotFoundError(f"Artifact not found at {file_path}")
         return default
-    return joblib.load(file_path)
+    return load_artifact(file_path)

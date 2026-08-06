@@ -16,6 +16,7 @@ if str(ROOT) not in sys.path:
 from dashboard.components.charts import cluster_comparison_figure
 from dashboard.components.data import load_cluster_profiles, load_cluster_statistics, load_cluster_summary
 from dashboard.components.metrics import render_kpi_cards
+from dashboard.components.safe_html import esc
 from dashboard.components.tables import render_table_section
 from dashboard.components.theme import apply_theme, configure_page, render_footer, section_heading
 
@@ -412,7 +413,7 @@ def _render_cluster_detail_cards(row: pd.Series) -> None:
             f"""
             <div class="persona-summary">
                 <h4>Business Summary</h4>
-                <p>{row.get('business_summary', 'N/A')}</p>
+                <p>{esc(row.get('business_summary'), 'N/A')}</p>
             </div>
             """,
             unsafe_allow_html=True,
@@ -422,11 +423,11 @@ def _render_cluster_detail_cards(row: pd.Series) -> None:
             f"""
             <div class="persona-summary">
                 <h4>Persona Context</h4>
-                <p>{row.get('persona_explanation', 'N/A')}</p>
+                <p>{esc(row.get('persona_explanation'), 'N/A')}</p>
                 <div style="margin-top:0.75rem;">
-                    <span class="seg-chip">Favorite Category: {row.get('favorite_category', 'N/A')}</span>
-                    <span class="seg-chip">Favorite Brand: {row.get('favorite_brand', 'N/A')}</span>
-                    <span class="seg-chip">Churn Risk: {row.get('churn_risk_dominant', 'N/A')}</span>
+                    <span class="seg-chip">Favorite Category: {esc(row.get('favorite_category'), 'N/A')}</span>
+                    <span class="seg-chip">Favorite Brand: {esc(row.get('favorite_brand'), 'N/A')}</span>
+                    <span class="seg-chip">Churn Risk: {esc(row.get('churn_risk_dominant'), 'N/A')}</span>
                 </div>
             </div>
             """,
@@ -440,13 +441,13 @@ def _render_persona_cards(frame: pd.DataFrame, selected_cluster: int) -> None:
         + "".join(
             f"""
             <div class="seg-card">
-                <div class="seg-card-title">Cluster {int(row['cluster_id'])} - {row.get('persona', 'N/A')}</div>
+                <div class="seg-card-title">Cluster {int(row['cluster_id'])} - {esc(row.get('persona'), 'N/A')}</div>
                 <div class="seg-card-subtitle">{row.get('cluster_size', 0):,} customers</div>
-                <div class="cluster-note">{row.get('persona_explanation', 'N/A')}</div>
+                <div class="cluster-note">{esc(row.get('persona_explanation'), 'N/A')}</div>
                 <div style="margin-top:0.7rem;">
-                    <span class="seg-chip">Spend {row.get('average_spend', 'N/A')}</span>
-                    <span class="seg-chip">Engagement {row.get('customer_engagement_score', 'N/A')}</span>
-                    <span class="seg-chip">Risk {row.get('churn_risk_dominant', 'N/A')}</span>
+                    <span class="seg-chip">Spend {esc(row.get('average_spend'), 'N/A')}</span>
+                    <span class="seg-chip">Engagement {esc(row.get('customer_engagement_score'), 'N/A')}</span>
+                    <span class="seg-chip">Risk {esc(row.get('churn_risk_dominant'), 'N/A')}</span>
                 </div>
             </div>
             """
@@ -603,7 +604,7 @@ def render_customer_segmentation_page() -> None:
         f"""
         <div class="seg-card" style="margin-top:0.25rem;">
             <div class="seg-card-title">Selected Cluster Deep Dive</div>
-            <div class="seg-card-subtitle">Cluster {int(selected_row.get('cluster_id', selected_cluster))} - {selected_row.get('persona', 'N/A')}</div>
+            <div class="seg-card-subtitle">Cluster {int(selected_row.get('cluster_id', selected_cluster))} - {esc(selected_row.get('persona'), 'N/A')}</div>
         </div>
         """,
         unsafe_allow_html=True,

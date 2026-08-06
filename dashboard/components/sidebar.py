@@ -6,6 +6,7 @@ import streamlit as st
 
 from .data import build_pipeline_status, project_version
 from .metrics import status_pill
+from .safe_html import esc
 
 
 NAVIGATION = [
@@ -38,7 +39,7 @@ def render_sidebar(active_page: str) -> None:
     for label, target in NAVIGATION:
         if label == active_page:
             st.sidebar.markdown(
-                f"<div class='status-pill ready' style='display:block;text-align:left;margin-bottom:0.35rem;'>{label}</div>",
+                f"<div class='status-pill ready' style='display:block;text-align:left;margin-bottom:0.35rem;'>{esc(label)}</div>",
                 unsafe_allow_html=True,
             )
         else:
@@ -51,7 +52,7 @@ def render_sidebar(active_page: str) -> None:
         f"""
         <div style="margin-top:1rem;padding:0.9rem;border-radius:18px;background:rgba(29,102,209,0.08);border:1px solid rgba(29,102,209,0.12);">
             <div style="color:var(--muted);font-size:0.76rem;text-transform:uppercase;letter-spacing:0.12em;font-weight:700;">Project Version</div>
-            <div style="color:var(--navy);font-size:1rem;font-weight:800;">{project_version()}</div>
+            <div style="color:var(--navy);font-size:1rem;font-weight:800;">{esc(project_version())}</div>
         </div>
         """,
         unsafe_allow_html=True,

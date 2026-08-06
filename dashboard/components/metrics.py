@@ -4,6 +4,8 @@ from typing import Any
 
 import streamlit as st
 
+from .safe_html import css_token, esc
+
 
 def _format_value(value: Any, suffix: str = "") -> str:
     if value is None:
@@ -24,10 +26,10 @@ def render_kpi_cards(kpis: list[dict[str, Any]]) -> None:
 
     cols = st.columns(len(kpis))
     for col, item in zip(cols, kpis):
-        label = item.get("label", "")
-        value = _format_value(item.get("value"), str(item.get("suffix", "")))
-        detail = item.get("detail", "")
-        trend = item.get("trend")
+        label = esc(item.get("label", ""))
+        value = esc(_format_value(item.get("value"), str(item.get("suffix", ""))))
+        detail = esc(item.get("detail", ""))
+        trend = esc(item.get("trend"))
         with col:
             st.markdown(
                 f"""
@@ -44,5 +46,5 @@ def render_kpi_cards(kpis: list[dict[str, Any]]) -> None:
 
 def status_pill(label: str, value: str) -> str:
     css_class = "ready" if value.lower() == "ready" else "partial" if value.lower() == "partial" else "missing"
-    return f"<span class='status-pill {css_class}'>{label}: {value}</span>"
+    return f"<span class='status-pill {css_token(css_class)}'>{esc(label)}: {esc(value)}</span>"
 

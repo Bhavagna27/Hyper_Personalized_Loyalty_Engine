@@ -572,6 +572,15 @@ Tests cover:
 
 ---
 
+## 🔒 Security
+
+- **Untrusted data is escaped before rendering.** Dashboard cards, chips, and summaries interpolate workbook/LLM-derived values into raw HTML, so every dynamic value goes through `dashboard.components.safe_html.esc` (and `css_token` for class names) to prevent stored XSS from malicious spreadsheet content.
+- **Model artifacts are only deserialized from trusted directories.** `joblib`/pickle payloads execute code on load, so `loyalty_engine.security.load_artifact` restricts loading to `artifacts/` and `outputs/`. Allow-list extra directories with `LOYALTY_ENGINE_TRUSTED_ARTIFACT_DIRS` (`os.pathsep` separated).
+- **Secrets come from the environment.** `OPENAI_API_KEY` is read via `os.getenv`; never commit keys or `.env` files.
+- **The dashboard has no authentication.** It exposes customer-level PII and must not be deployed on a public address without an authenticating reverse proxy or Streamlit authentication in front of it.
+
+---
+
 ## 🤝 Contributing
 
 1. Fork the repository

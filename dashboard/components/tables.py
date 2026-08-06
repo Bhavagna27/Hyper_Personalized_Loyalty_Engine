@@ -7,6 +7,7 @@ import pandas as pd
 import streamlit as st
 
 from .data import extract_reward_names, extract_scores
+from .safe_html import esc
 
 
 def _safe_parse(value: Any) -> Any:
@@ -34,9 +35,10 @@ def render_table_section(
     max_rows: int = 10,
     height: int = 360,
 ) -> None:
+    subtitle_html = f"<div class='subtle-note'>{esc(subtitle)}</div>" if subtitle else ""
     st.markdown(
-        f"<div class='section-card'><div style='font-size:1.05rem;font-weight:800;color:var(--navy);margin-bottom:0.25rem;'>{title}</div>"
-        f"{f'<div class=\"subtle-note\">{subtitle}</div>' if subtitle else ''}</div>",
+        f"<div class='section-card'><div style='font-size:1.05rem;font-weight:800;color:var(--navy);margin-bottom:0.25rem;'>{esc(title)}</div>"
+        f"{subtitle_html}</div>",
         unsafe_allow_html=True,
     )
     if df.empty:
