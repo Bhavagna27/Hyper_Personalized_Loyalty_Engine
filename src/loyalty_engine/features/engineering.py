@@ -18,13 +18,11 @@ It also constructs and saves a reusable sklearn preprocessing pipeline
 
 from __future__ import annotations
 
-import json
 import logging
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, NamedTuple
 
-import joblib
 import numpy as np
 import pandas as pd
 from sklearn.compose import ColumnTransformer
@@ -33,6 +31,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 from loyalty_engine.config import PATHS
+from loyalty_engine.io.persistence import dump_joblib, ensure_dir, write_csv, write_json
 
 logger = logging.getLogger(__name__)
 
@@ -655,25 +654,24 @@ class FeatureEngineeringPipeline:
 
         saved_paths: list[Path] = []
         if save:
-            self.output_dir.mkdir(parents=True, exist_ok=True)
-            self.artifacts_dir.mkdir(parents=True, exist_ok=True)
+            ensure_dir(self.output_dir)
+            ensure_dir(self.artifacts_dir)
 
             # Save customer_features.csv
             features_csv_path = self.output_dir / "customer_features.csv"
-            customer_features.to_csv(features_csv_path, index=False)
+            write_csv(customer_features, features_csv_path)
             saved_paths.append(features_csv_path)
             logger.info("Saved customer features to %s (%d rows)", features_csv_path, len(customer_features))
 
             # Save feature_pipeline.joblib
             pipeline_joblib_path = self.artifacts_dir / "feature_pipeline.joblib"
-            joblib.dump(pipeline, pipeline_joblib_path)
+            dump_joblib(pipeline, pipeline_joblib_path)
             saved_paths.append(pipeline_joblib_path)
             logger.info("Saved feature preprocessing pipeline to %s", pipeline_joblib_path)
 
             # Save feature_metadata.json
             metadata_json_path = self.artifacts_dir / "feature_metadata.json"
-            with open(metadata_json_path, "w", encoding="utf-8") as fh:
-                json.dump(metadata, fh, indent=2, default=str)
+            write_json(metadata, metadata_json_path)
             saved_paths.append(metadata_json_path)
             logger.info("Saved feature metadata to %s", metadata_json_path)
 

@@ -20,6 +20,8 @@ import seaborn as sns
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
+from loyalty_engine.io.persistence import ensure_dir
+
 logger = logging.getLogger(__name__)
 
 
@@ -42,7 +44,7 @@ def plot_elbow_and_silhouette(
     output_dir: Path,
 ) -> None:
     """Generate and save Elbow Curve and Silhouette Score evaluation plots."""
-    output_dir.mkdir(parents=True, exist_ok=True)
+    ensure_dir(output_dir)
 
     ks = list(k_range)
     inertia_vals = [inertias[k] for k in ks]
@@ -89,7 +91,7 @@ def plot_pca_2d_clusters(
     output_dir: Path,
 ) -> None:
     """Generate and save 2D PCA projection scatter plot of customer clusters."""
-    output_dir.mkdir(parents=True, exist_ok=True)
+    ensure_dir(output_dir)
 
     pca = PCA(n_components=2, random_state=42)
     X_pca = pca.fit_transform(X_scaled)
@@ -153,7 +155,7 @@ def plot_pca_explained_variance(
     output_dir: Path,
 ) -> None:
     """Generate and save PCA Scree plot showing individual & cumulative explained variance."""
-    output_dir.mkdir(parents=True, exist_ok=True)
+    ensure_dir(output_dir)
 
     n_features = X_scaled.shape[1]
     pca = PCA(n_components=n_features, random_state=42)
@@ -195,7 +197,7 @@ def plot_cluster_centroids_heatmap(
     output_dir: Path,
 ) -> None:
     """Generate and save a heatmap of normalized cluster centroids across features."""
-    output_dir.mkdir(parents=True, exist_ok=True)
+    ensure_dir(output_dir)
 
     cluster_ids = list(range(len(centroids_scaled)))
     yticklabels = [f"C{cid}: {personas.get(cid, '')}" for cid in cluster_ids]
@@ -234,7 +236,7 @@ def plot_pairwise_cluster_comparison(
     output_dir: Path,
 ) -> None:
     """Generate and save key pairwise feature comparison boxplots across clusters."""
-    output_dir.mkdir(parents=True, exist_ok=True)
+    ensure_dir(output_dir)
 
     df = customer_features.copy()
     df["persona_label"] = df["cluster_id"].map(lambda cid: f"C{cid}: {personas.get(cid, '')}")

@@ -9,6 +9,8 @@ from typing import Any
 
 import pandas as pd
 
+from loyalty_engine.io.persistence import read_json, write_csv, write_json
+
 logger = logging.getLogger(__name__)
 
 
@@ -82,9 +84,7 @@ class LLMRecommendationPersonalizer:
 
         output = pd.DataFrame(rows)
         if output_path is not None:
-            path = Path(output_path)
-            path.parent.mkdir(parents=True, exist_ok=True)
-            output.to_csv(path, index=False)
+            write_csv(output, output_path)
         return output
 
     def _normalize_payload(self, customer_payload: dict[str, Any]) -> dict[str, Any]:
@@ -222,11 +222,8 @@ class LLMRecommendationPersonalizer:
 
     def _load_cache(self) -> dict[str, Any]:
         cache_path = Path(__file__).resolve().parent / "cache.json"
-        if not cache_path.exists():
-            return {}
         try:
-            with open(cache_path, "r", encoding="utf-8") as handle:
-                data = json.load(handle)
+            data = read_json(cache_path, default={})
         except (OSError, json.JSONDecodeError) as exc:
             logger.warning("Ignoring unreadable LLM cache at %s: %s", cache_path, exc)
             return {}
@@ -243,8 +240,7 @@ class LLMRecommendationPersonalizer:
         data = self._load_cache()
         data[cache_key] = result
         try:
-            with open(cache_path, "w", encoding="utf-8") as handle:
-                json.dump(data, handle, indent=2)
+            write_json(data, cache_path)
         except OSError as exc:
             logger.warning("Could not persist LLM cache to %s: %s", cache_path, exc)
 

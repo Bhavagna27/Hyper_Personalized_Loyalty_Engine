@@ -6,10 +6,10 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-import joblib
 import pandas as pd
 
 from loyalty_engine.config import PATHS
+from loyalty_engine.io.persistence import ensure_dir, load_joblib, read_csv, write_csv
 from loyalty_engine.models.artifacts import ModelBundle
 from loyalty_engine.models.segmentation import SEGMENTATION_FEATURES, predict_customer_segment
 
@@ -152,21 +152,20 @@ class RecommendationEngine:
         recommendations_df = self._recommendation_export_frame(recommendations_df)
         if output_path is None:
             output_path = PATHS.processed_dir / "AI_Recommendations.csv"
-        output_path.parent.mkdir(parents=True, exist_ok=True)
-        recommendations_df.to_csv(output_path, index=False)
+        write_csv(recommendations_df, output_path)
         return recommendations_df
 
     def save_outputs(self, output_dir: Path | None = None) -> dict[str, Path]:
         if output_dir is None:
             output_dir = PATHS.root / "outputs" / "recommendations"
-        output_dir.mkdir(parents=True, exist_ok=True)
+        ensure_dir(output_dir)
         catalog_path = output_dir / "reward_catalog.csv"
         recommendations_path = output_dir / "recommendations.csv"
         ai_recommendations_path = PATHS.processed_dir / "AI_Recommendations.csv"
 
-        self._reward_catalog().to_csv(catalog_path, index=False)
+        write_csv(self._reward_catalog(), catalog_path)
         recommendations_df = self.populate_ai_recommendations(output_path=ai_recommendations_path)
-        recommendations_df.to_csv(recommendations_path, index=False)
+        write_csv(recommendations_df, recommendations_path)
         return {
             "reward_catalog": catalog_path,
             "recommendations": recommendations_path,
@@ -692,41 +691,41 @@ class RecommendationEngine:
         return catalog.copy()
 
     def _load_customer_features(self) -> pd.DataFrame:
-        path = PATHS.customer_features_path
-        if not path.exists():
+        features = read_csv(PATHS.customer_features_path)
+        if features is None:
             logger.warning(
                 "Customer features not found at %s; recommendations will be generated without "
                 "engineered customer context. Run the 'features' pipeline first.",
-                path,
+                PATHS.customer_features_path,
             )
             return pd.DataFrame()
-        return pd.read_csv(path)
+        return features
 
     def _load_segmentation_bundle(self) -> Any | None:
         path = self.model_path or PATHS.kmeans_model_path
-        if not path.exists():
+        bundle = load_joblib(path)
+        if bundle is None:
             logger.warning(
                 "Segmentation model not found at %s; every customer will fall back to cluster -1. "
                 "Run the 'segment' pipeline first.",
                 path,
             )
-            return None
-        return joblib.load(path)
+        return bundle
 
     def _load_cluster_profiles(self) -> pd.DataFrame | None:
         path = self.cluster_profiles_path or PATHS.cluster_profiles_path
-        if not path.exists():
+        profiles = read_csv(path)
+        if profiles is None:
             logger.warning(
                 "Cluster profiles not found at %s; personas may be reported as 'Unknown'.", path
             )
-            return None
-        return pd.read_csv(path)
+        return profiles
 
     def _load_cluster_statistics(self) -> pd.DataFrame | None:
         path = self.cluster_statistics_path or PATHS.cluster_statistics_path
-        if not path.exists():
+        statistics = read_csv(path)
+        if statistics is None:
             logger.warning(
                 "Cluster statistics not found at %s; cluster-level metrics will be omitted.", path
             )
-            return None
-        return pd.read_csv(path)
+        return statistics

@@ -1,17 +1,22 @@
 from __future__ import annotations
 
-import json
 import logging
 from pathlib import Path
 from typing import Any
 
-import joblib
 import numpy as np
 import pandas as pd
 
 from loyalty_engine.config import PATHS
 from loyalty_engine.features import build_training_table
-from loyalty_engine.io import ExcelDatasetLoader
+from loyalty_engine.io import (
+    ExcelDatasetLoader,
+    load_joblib,
+    read_csv,
+    read_json,
+    write_csv,
+    write_json,
+)
 from loyalty_engine.models import SEGMENTATION_FEATURES, predict_customer_segment
 from loyalty_engine.preprocessing import clean_customer_profile, clean_transaction_history
 from loyalty_engine.recommendations import RecommendationEngine
@@ -120,9 +125,7 @@ class NewCustomerPredictor:
             rows.append(self.predict_customer(row.to_dict()))
         predictions = pd.DataFrame(rows)
         if output_path is not None:
-            output_path = Path(output_path)
-            output_path.parent.mkdir(parents=True, exist_ok=True)
-            predictions.to_csv(output_path, index=False)
+            write_csv(predictions, output_path)
         return predictions
 
     def predict_excel(self, path: str | Path, output_path: str | Path | None = None) -> pd.DataFrame:
@@ -248,63 +251,59 @@ class NewCustomerPredictor:
         return features
 
     def _load_feature_pipeline(self) -> Any | None:
-        if not self.feature_pipeline_path.exists():
+        pipeline = load_joblib(self.feature_pipeline_path)
+        if pipeline is None:
             logger.warning(
                 "Feature pipeline artifact not found at %s; falling back to on-the-fly feature engineering.",
                 self.feature_pipeline_path,
             )
-            return None
-        return joblib.load(self.feature_pipeline_path)
+        return pipeline
 
     def _load_feature_metadata(self) -> dict[str, Any] | None:
-        metadata_path = PATHS.feature_metadata_path
-        if not metadata_path.exists():
+        metadata = read_json(PATHS.feature_metadata_path)
+        if metadata is None:
             logger.warning(
                 "Feature metadata not found at %s; input columns will not be aligned with training.",
-                metadata_path,
+                PATHS.feature_metadata_path,
             )
-            return None
-        with open(metadata_path, "r", encoding="utf-8") as handle:
-            return json.load(handle)
+        return metadata
 
     def _load_segmentation_bundle(self) -> Any:
-        if not self.kmeans_model_path.exists():
-            raise FileNotFoundError(f"Segmentation model artifact not found at {self.kmeans_model_path}")
-        return joblib.load(self.kmeans_model_path)
+        return load_joblib(self.kmeans_model_path, must_exist=True)
 
     def _load_cluster_profiles(self) -> pd.DataFrame | None:
-        if not self.cluster_profiles_path.exists():
+        profiles = read_csv(self.cluster_profiles_path)
+        if profiles is None:
             logger.warning(
                 "Cluster profiles not found at %s; personas may be reported as 'Unknown'.",
                 self.cluster_profiles_path,
             )
-            return None
-        return pd.read_csv(self.cluster_profiles_path)
+        return profiles
 
     def _load_cluster_statistics(self) -> pd.DataFrame | None:
-        if not self.cluster_statistics_path.exists():
+        statistics = read_csv(self.cluster_statistics_path)
+        if statistics is None:
             logger.warning(
                 "Cluster statistics not found at %s; cluster-level metrics will be omitted.",
                 self.cluster_statistics_path,
             )
-            return None
-        return pd.read_csv(self.cluster_statistics_path)
+        return statistics
 
     def _load_or_compute_distance_statistics(self) -> dict[str, float]:
         stats_path = self.cluster_statistics_path.parent / "cluster_distance_stats.json"
-        if stats_path.exists():
-            with open(stats_path, "r", encoding="utf-8") as handle:
-                return json.load(handle)
+        cached_stats = read_json(stats_path)
+        if cached_stats is not None:
+            return cached_stats
 
         training_features_path = PATHS.customer_features_path
-        if not training_features_path.exists():
+        training_features = read_csv(training_features_path)
+        if training_features is None:
             logger.warning(
                 "Training features not found at %s; similarity scores fall back to the unit distance scale.",
                 training_features_path,
             )
             return _DEFAULT_DISTANCE_STATISTICS.copy()
 
-        training_features = pd.read_csv(training_features_path)
         available_features = [feature for feature in SEGMENTATION_FEATURES if feature in training_features.columns]
         if len(available_features) < 1:
             logger.warning(
@@ -325,9 +324,7 @@ class NewCustomerPredictor:
         }
 
         try:
-            stats_path.parent.mkdir(parents=True, exist_ok=True)
-            with open(stats_path, "w", encoding="utf-8") as handle:
-                json.dump(stats, handle, indent=2)
+            write_json(stats, stats_path)
         except OSError as exc:
             logger.warning("Could not cache cluster distance statistics to %s: %s", stats_path, exc)
 
@@ -335,7 +332,7 @@ class NewCustomerPredictor:
             updated_statistics = self.cluster_statistics.copy()
             for key, value in stats.items():
                 updated_statistics[key] = value
-            updated_statistics.to_csv(self.cluster_statistics_path, index=False)
+            write_csv(updated_statistics, self.cluster_statistics_path)
             self.cluster_statistics = updated_statistics
 
         return stats

@@ -6,9 +6,11 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 
+from loyalty_engine.io.persistence import ensure_dir
+
 
 def plot_customer_overview(dataset: pd.DataFrame, output_dir: Path) -> None:
-    output_dir.mkdir(parents=True, exist_ok=True)
+    ensure_dir(output_dir)
     sns.set_theme(style="whitegrid")
 
     fig, ax = plt.subplots(figsize=(10, 6))

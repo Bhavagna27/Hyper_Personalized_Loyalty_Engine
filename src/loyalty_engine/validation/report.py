@@ -22,13 +22,14 @@ Example
 """
 from __future__ import annotations
 
-import json
 import logging
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
 
 import pandas as pd
+
+from loyalty_engine.io.persistence import write_json
 
 from loyalty_engine.validation.rules import (
     Finding,
@@ -214,9 +215,7 @@ class ValidationReport:
         path:
             Destination file path (should end in ``.json``).
         """
-        path.parent.mkdir(parents=True, exist_ok=True)
-        with open(path, "w", encoding="utf-8") as fh:
-            json.dump(self.to_dict(), fh, indent=2, default=str)
+        write_json(self.to_dict(), path)
         logger.info("Validation report saved to %s", path)
 
 
