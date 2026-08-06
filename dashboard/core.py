@@ -43,6 +43,7 @@ from dashboard.components.data import (
     summarize_validation_report,
 )
 from dashboard.components.metrics import render_kpi_cards
+from dashboard.components.safe_html import css_token, esc
 from dashboard.components.tables import (
     flatten_new_customer_predictions,
     flatten_recommendations,
@@ -55,8 +56,8 @@ def _page_hero(title: str, subtitle: str) -> None:
     st.markdown(
         f"""
         <div class="hero">
-            <h1>{title}</h1>
-            <p>{subtitle}</p>
+            <h1>{esc(title)}</h1>
+            <p>{esc(subtitle)}</p>
         </div>
         """,
         unsafe_allow_html=True,
@@ -119,7 +120,7 @@ def _chart_with_spinner(message: str, figure: go.Figure) -> None:
 
 def _status_strip(items: list[tuple[str, str]]) -> None:
     chips = "".join(
-        f"<span class='status-pill {value.lower()}' style='margin-right:0.45rem;margin-bottom:0.35rem;'>{label}: {value}</span>"
+        f"<span class='status-pill {css_token(value)}' style='margin-right:0.45rem;margin-bottom:0.35rem;'>{esc(label)}: {esc(value)}</span>"
         for label, value in items
     )
     st.markdown(f"<div style='margin:0.2rem 0 1rem;'>{chips}</div>", unsafe_allow_html=True)
@@ -129,8 +130,8 @@ def _figure_download_section(title: str, subtitle: str, df: pd.DataFrame, filena
     st.markdown(
         f"""
         <div class="section-card">
-            <div style="font-size:1.05rem;font-weight:800;color:var(--navy);margin-bottom:0.25rem;">{title}</div>
-            <div class="subtle-note">{subtitle}</div>
+            <div style="font-size:1.05rem;font-weight:800;color:var(--navy);margin-bottom:0.25rem;">{esc(title)}</div>
+            <div class="subtle-note">{esc(subtitle)}</div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -224,8 +225,8 @@ def render_overview_page() -> None:
                         st.markdown(
                             f"""
                             <div class="kpi-card">
-                                <div class="kpi-label">{label}</div>
-                                <div class="kpi-value" style="font-size:1.5rem;">{value}</div>
+                                <div class="kpi-label">{esc(label)}</div>
+                                <div class="kpi-value" style="font-size:1.5rem;">{esc(value)}</div>
                             </div>
                             """,
                             unsafe_allow_html=True,
@@ -391,8 +392,8 @@ def render_customer_segmentation_page() -> None:
                 st.markdown(
                     f"""
                     <div class="kpi-card">
-                        <div class="kpi-label">{label}</div>
-                        <div class="kpi-value" style="font-size:1.45rem;">{value}</div>
+                        <div class="kpi-label">{esc(label)}</div>
+                        <div class="kpi-value" style="font-size:1.45rem;">{esc(value)}</div>
                     </div>
                     """,
                     unsafe_allow_html=True,
@@ -484,8 +485,8 @@ def render_recommendations_page() -> None:
             st.markdown(
                 f"""
                 <div class="kpi-card">
-                    <div class="kpi-label">{label}</div>
-                    <div class="kpi-value" style="font-size:1.45rem;">{value if value is not None else 'N/A'}</div>
+                    <div class="kpi-label">{esc(label)}</div>
+                    <div class="kpi-value" style="font-size:1.45rem;">{esc(value, 'N/A')}</div>
                 </div>
                 """,
                 unsafe_allow_html=True,
@@ -648,8 +649,8 @@ def render_new_customer_page() -> None:
             st.markdown(
                 f"""
                 <div class="kpi-card">
-                    <div class="kpi-label">{label}</div>
-                    <div class="kpi-value" style="font-size:1.45rem;">{value if value is not None else 'N/A'}</div>
+                    <div class="kpi-label">{esc(label)}</div>
+                    <div class="kpi-value" style="font-size:1.45rem;">{esc(value, 'N/A')}</div>
                 </div>
                 """,
                 unsafe_allow_html=True,
@@ -721,8 +722,8 @@ def render_new_customer_page() -> None:
                         st.markdown(
                             f"""
                             <div class="kpi-card">
-                                <div class="kpi-label">{label}</div>
-                                <div class="kpi-value" style="font-size:1.35rem;">{value}</div>
+                                <div class="kpi-label">{esc(label)}</div>
+                                <div class="kpi-value" style="font-size:1.35rem;">{esc(value)}</div>
                             </div>
                             """,
                             unsafe_allow_html=True,
@@ -731,7 +732,7 @@ def render_new_customer_page() -> None:
                     f"""
                     <div class="section-card" style="margin-top:0.9rem;">
                         <div style="font-size:1.05rem;font-weight:800;color:var(--navy);margin-bottom:0.35rem;">Business Insight</div>
-                        <div>{row.get('business_insight', '')}</div>
+                        <div>{esc(row.get('business_insight', ''))}</div>
                     </div>
                     """,
                     unsafe_allow_html=True,
@@ -740,7 +741,7 @@ def render_new_customer_page() -> None:
                     f"""
                     <div class="section-card" style="margin-top:0.75rem;">
                         <div style="font-size:1.05rem;font-weight:800;color:var(--navy);margin-bottom:0.35rem;">Expected Impact</div>
-                        <div>{row.get('expected_impact', '')}</div>
+                        <div>{esc(row.get('expected_impact', ''))}</div>
                     </div>
                     """,
                     unsafe_allow_html=True,
@@ -820,8 +821,8 @@ def render_business_analytics_page() -> None:
                         st.markdown(
                             f"""
                             <div class="kpi-card">
-                                <div class="kpi-label">{label}</div>
-                                <div class="kpi-value" style="font-size:1.45rem;">{value}</div>
+                                <div class="kpi-label">{esc(label)}</div>
+                                <div class="kpi-value" style="font-size:1.45rem;">{esc(value)}</div>
                             </div>
                             """,
                             unsafe_allow_html=True,
@@ -859,8 +860,8 @@ def render_business_analytics_page() -> None:
                         st.markdown(
                             f"""
                             <div class="kpi-card">
-                                <div class="kpi-label">{label}</div>
-                                <div class="kpi-value" style="font-size:1.45rem;">{value if value is not None else 'N/A'}</div>
+                                <div class="kpi-label">{esc(label)}</div>
+                                <div class="kpi-value" style="font-size:1.45rem;">{esc(value, 'N/A')}</div>
                             </div>
                             """,
                             unsafe_allow_html=True,

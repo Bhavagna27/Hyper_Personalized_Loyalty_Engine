@@ -6,12 +6,12 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-import joblib
 import pandas as pd
 
 from loyalty_engine.config import PATHS
 from loyalty_engine.models.artifacts import ModelBundle
 from loyalty_engine.models.segmentation import SEGMENTATION_FEATURES, predict_customer_segment
+from loyalty_engine.security import load_artifact
 
 logger = logging.getLogger(__name__)
 
@@ -690,7 +690,7 @@ class RecommendationEngine:
         path = self.model_path or PATHS.kmeans_model_path
         if not path.exists():
             return None
-        return joblib.load(path)
+        return load_artifact(path)
 
     def _load_cluster_profiles(self) -> pd.DataFrame | None:
         path = self.cluster_profiles_path or PATHS.cluster_profiles_path

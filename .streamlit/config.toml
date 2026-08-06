@@ -1,5 +1,12 @@
 [server]
 headless = true
+enableCORS = true
+enableXsrfProtection = true
+maxUploadSize = 25
 
 [browser]
 gatherUsageStats = false
+
+[client]
+# Do not leak stack traces and file paths to the browser.
+showErrorDetails = "none"

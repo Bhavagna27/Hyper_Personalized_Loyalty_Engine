@@ -6,6 +6,8 @@ from typing import Any
 
 import joblib
 
+from loyalty_engine.security import load_artifact
+
 
 @dataclass
 class ModelBundle:
@@ -23,5 +25,5 @@ def save_bundle(bundle: ModelBundle, path: Path) -> None:
 
 
 def load_bundle(path: Path) -> ModelBundle:
-    return joblib.load(path)
+    return load_artifact(path)
 

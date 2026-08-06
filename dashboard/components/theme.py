@@ -5,6 +5,7 @@ from datetime import datetime
 import streamlit as st
 
 from .data import generated_timestamp, project_version
+from .safe_html import esc
 
 
 def configure_page(page_title: str) -> None:
@@ -187,8 +188,8 @@ def section_heading(title: str, subtitle: str | None = None) -> None:
     st.markdown(
         f"""
         <div style="margin: 1rem 0 0.65rem;">
-            <div style="font-size:1.25rem;font-weight:800;color:var(--navy);">{title}</div>
-            {"<div class='subtle-note'>" + subtitle + "</div>" if subtitle else ""}
+            <div style="font-size:1.25rem;font-weight:800;color:var(--navy);">{esc(title)}</div>
+            {"<div class='subtle-note'>" + esc(subtitle) + "</div>" if subtitle else ""}
         </div>
         """,
         unsafe_allow_html=True,
@@ -199,8 +200,8 @@ def render_footer() -> None:
     st.markdown(
         f"""
         <div class="footer-bar">
-            <strong>Project Version:</strong> {project_version()} &nbsp;|&nbsp;
-            <strong>Generated Time:</strong> {generated_timestamp()}
+            <strong>Project Version:</strong> {esc(project_version())} &nbsp;|&nbsp;
+            <strong>Generated Time:</strong> {esc(generated_timestamp())}
         </div>
         """,
         unsafe_allow_html=True,

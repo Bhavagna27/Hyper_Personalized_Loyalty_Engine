@@ -5,7 +5,6 @@ import logging
 from pathlib import Path
 from typing import Any
 
-import joblib
 import numpy as np
 import pandas as pd
 
@@ -15,6 +14,7 @@ from loyalty_engine.io import ExcelDatasetLoader
 from loyalty_engine.models import SEGMENTATION_FEATURES, predict_customer_segment
 from loyalty_engine.preprocessing import clean_customer_profile, clean_transaction_history
 from loyalty_engine.recommendations import RecommendationEngine
+from loyalty_engine.security import load_artifact
 from loyalty_engine.validation import validate_workbook
 
 logger = logging.getLogger(__name__)
@@ -243,7 +243,7 @@ class NewCustomerPredictor:
     def _load_feature_pipeline(self) -> Any | None:
         if not self.feature_pipeline_path.exists():
             return None
-        return joblib.load(self.feature_pipeline_path)
+        return load_artifact(self.feature_pipeline_path)
 
     def _load_feature_metadata(self) -> dict[str, Any] | None:
         metadata_path = PATHS.feature_metadata_path
@@ -255,7 +255,7 @@ class NewCustomerPredictor:
     def _load_segmentation_bundle(self) -> Any:
         if not self.kmeans_model_path.exists():
             raise FileNotFoundError(f"Segmentation model artifact not found at {self.kmeans_model_path}")
-        return joblib.load(self.kmeans_model_path)
+        return load_artifact(self.kmeans_model_path)
 
     def _load_cluster_profiles(self) -> pd.DataFrame | None:
         if not self.cluster_profiles_path.exists():
