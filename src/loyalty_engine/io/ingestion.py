@@ -43,6 +43,7 @@ import pandas as pd
 
 from loyalty_engine.config import PATHS
 from loyalty_engine.io.excel_loader import ExcelDatasetLoader
+from loyalty_engine.io.persistence import ensure_dir, write_csv
 from loyalty_engine.preprocessing import (
     clean_customer_profile,
     clean_recommendation_bank,
@@ -240,12 +241,11 @@ class IngestionPipeline:
         list[Path]
             Paths of the written CSV files.
         """
-        out_dir = processed_dir or self.processed_dir
-        out_dir.mkdir(parents=True, exist_ok=True)
+        out_dir = ensure_dir(processed_dir or self.processed_dir)
         saved: list[Path] = []
         for name, df in cleaned_frames.items():
             dest = out_dir / f"{name}.csv"
-            df.to_csv(dest, index=False, encoding="utf-8")
+            write_csv(df, dest, encoding="utf-8")
             logger.info("Saved cleaned '%s' → %s  (%d rows)", name, dest, len(df))
             saved.append(dest)
         return saved
