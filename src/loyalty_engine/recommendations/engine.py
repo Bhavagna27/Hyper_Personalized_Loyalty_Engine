@@ -48,6 +48,10 @@ class RecommendationEngine:
             output["predicted_customer_health"] = health_pred
             return output
 
+        logger.warning(
+            "No trained model bundle available; defaulting every customer to churn risk 'Low' and "
+            "health 'Stable'. Run the 'train' pipeline for real predictions."
+        )
         output = features[["Customer_ID"]].copy()
         output["predicted_churn_risk"] = ["Low"] * len(output)
         output["predicted_customer_health"] = ["Stable"] * len(output)
@@ -199,7 +203,12 @@ class RecommendationEngine:
             "cluster_id" not in base.columns or "persona" not in base.columns
         ):
             required_columns = [col for col in SEGMENTATION_FEATURES if col in base.columns]
-            if len(required_columns) == len(SEGMENTATION_FEATURES):
+            if len(required_columns) != len(SEGMENTATION_FEATURES):
+                logger.warning(
+                    "Skipping cluster assignment: missing segmentation feature(s) %s.",
+                    sorted(set(SEGMENTATION_FEATURES) - set(required_columns)),
+                )
+            else:
                 predicted = predict_customer_segment(base[required_columns], self.segmentation_bundle)
                 if isinstance(predicted, dict):
                     predicted_df = pd.DataFrame([predicted])
@@ -684,22 +693,40 @@ class RecommendationEngine:
 
     def _load_customer_features(self) -> pd.DataFrame:
         path = PATHS.customer_features_path
-        return pd.read_csv(path) if path.exists() else pd.DataFrame()
+        if not path.exists():
+            logger.warning(
+                "Customer features not found at %s; recommendations will be generated without "
+                "engineered customer context. Run the 'features' pipeline first.",
+                path,
+            )
+            return pd.DataFrame()
+        return pd.read_csv(path)
 
     def _load_segmentation_bundle(self) -> Any | None:
         path = self.model_path or PATHS.kmeans_model_path
         if not path.exists():
+            logger.warning(
+                "Segmentation model not found at %s; every customer will fall back to cluster -1. "
+                "Run the 'segment' pipeline first.",
+                path,
+            )
             return None
         return joblib.load(path)
 
     def _load_cluster_profiles(self) -> pd.DataFrame | None:
         path = self.cluster_profiles_path or PATHS.cluster_profiles_path
         if not path.exists():
+            logger.warning(
+                "Cluster profiles not found at %s; personas may be reported as 'Unknown'.", path
+            )
             return None
         return pd.read_csv(path)
 
     def _load_cluster_statistics(self) -> pd.DataFrame | None:
         path = self.cluster_statistics_path or PATHS.cluster_statistics_path
         if not path.exists():
+            logger.warning(
+                "Cluster statistics not found at %s; cluster-level metrics will be omitted.", path
+            )
             return None
         return pd.read_csv(path)

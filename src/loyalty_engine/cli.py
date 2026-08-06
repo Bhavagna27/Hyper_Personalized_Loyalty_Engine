@@ -265,11 +265,7 @@ def _handle_ingest(args: argparse.Namespace) -> None:
         report_dir=args.report_dir,
     )
 
-    try:
-        result = pipeline.run(save=not args.no_save, log_file=args.log_file)
-    except ValueError as exc:
-        logger.error("Structural validation failed: %s", exc)
-        sys.exit(1)
+    result = pipeline.run(save=not args.no_save, log_file=args.log_file)
 
     print(result.report.summary())
 
@@ -342,23 +338,41 @@ def _handle_segment(args: argparse.Namespace) -> None:
 # ---------------------------------------------------------------------------
 
 
+_HANDLERS = {
+    "train": _handle_train,
+    "score": _handle_score,
+    "eda": _handle_eda,
+    "ingest": _handle_ingest,
+    "features": _handle_features,
+    "segment": _handle_segment,
+}
+
+
 def main() -> None:
-    """Parse arguments and dispatch to the appropriate sub-command handler."""
+    """Parse arguments and dispatch to the appropriate sub-command handler.
+
+    Expected failures (missing files, invalid data, missing sheets/columns) are
+    reported as a single-line error and exit with status 1; unexpected errors
+    keep their traceback so they are not mistaken for user error.
+    """
     parser = build_parser()
     args = parser.parse_args()
 
-    if args.command == "train":
-        _handle_train(args)
-    elif args.command == "score":
-        _handle_score(args)
-    elif args.command == "eda":
-        _handle_eda(args)
-    elif args.command == "ingest":
-        _handle_ingest(args)
-    elif args.command == "features":
-        _handle_features(args)
-    elif args.command == "segment":
-        _handle_segment(args)
+    handler = _HANDLERS.get(args.command)
+    if handler is None:
+        parser.error(f"Unknown command: {args.command}")
+
+    try:
+        handler(args)
+    except FileNotFoundError as exc:
+        logger.error("%s command failed — file not found: %s", args.command, exc)
+        sys.exit(1)
+    except KeyError as exc:
+        logger.error("%s command failed — missing expected sheet or column: %s", args.command, exc)
+        sys.exit(1)
+    except ValueError as exc:
+        logger.error("%s command failed — invalid input data: %s", args.command, exc)
+        sys.exit(1)
 
 
 if __name__ == "__main__":

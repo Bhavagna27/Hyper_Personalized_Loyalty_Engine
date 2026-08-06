@@ -1,11 +1,15 @@
 from __future__ import annotations
 
+import logging
 from pathlib import Path
 
 import streamlit as st
+from streamlit.errors import StreamlitAPIException
 
 from .data import build_pipeline_status, project_version
 from .metrics import status_pill
+
+logger = logging.getLogger(__name__)
 
 
 NAVIGATION = [
@@ -44,7 +48,8 @@ def render_sidebar(active_page: str) -> None:
         else:
             try:
                 st.sidebar.page_link(target, label=label)
-            except Exception:
+            except StreamlitAPIException as exc:
+                logger.warning("Could not render navigation link for %s: %s", target, exc)
                 st.sidebar.markdown(f"- {label}")
 
     st.sidebar.markdown(

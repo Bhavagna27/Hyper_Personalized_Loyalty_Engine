@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import ast
 import json
+import logging
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
@@ -9,6 +10,8 @@ from typing import Any
 
 import pandas as pd
 import streamlit as st
+
+logger = logging.getLogger(__name__)
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -53,36 +56,56 @@ def _mtime_signature(path: Path) -> int:
 
 
 @st.cache_data(show_spinner=False)
-def _read_csv_cached(path_str: str, signature: int) -> pd.DataFrame:
+def _read_csv_cached(path_str: str, signature: int) -> tuple[pd.DataFrame, str | None]:
     path = Path(path_str)
     if not path.exists():
-        return pd.DataFrame()
+        return pd.DataFrame(), None
     try:
-        return pd.read_csv(path)
-    except Exception:
-        return pd.DataFrame()
+        return pd.read_csv(path), None
+    except (OSError, ValueError) as exc:
+        logger.exception("Failed to read CSV artifact %s", path)
+        return pd.DataFrame(), f"{type(exc).__name__}: {exc}"
 
 
 @st.cache_data(show_spinner=False)
-def _read_json_cached(path_str: str, signature: int) -> Any:
+def _read_json_cached(path_str: str, signature: int) -> tuple[Any, str | None]:
     path = Path(path_str)
     if not path.exists():
-        return {}
+        return {}, None
     try:
         with path.open("r", encoding="utf-8") as handle:
-            return json.load(handle)
-    except Exception:
-        return {}
+            return json.load(handle), None
+    except (OSError, json.JSONDecodeError) as exc:
+        logger.exception("Failed to read JSON artifact %s", path)
+        return {}, f"{type(exc).__name__}: {exc}"
+
+
+def _report_load_error(path: Path, error: str) -> None:
+    """Surface an artifact read failure in the UI instead of showing empty data."""
+    st.error(f"Could not read `{path.name}` — {error}. Showing empty data for this section.")
 
 
 def load_csv(path: Path) -> pd.DataFrame:
-    """Load a CSV file with cache invalidation based on file mtime."""
-    return _read_csv_cached(str(path), _mtime_signature(path)).copy()
+    """Load a CSV file with cache invalidation based on file mtime.
+
+    A read failure is reported in the UI and logged; it is never silently
+    indistinguishable from a missing artifact.
+    """
+    frame, error = _read_csv_cached(str(path), _mtime_signature(path))
+    if error is not None:
+        _report_load_error(path, error)
+    return frame.copy()
 
 
 def load_json(path: Path) -> Any:
-    """Load a JSON file with cache invalidation based on file mtime."""
-    payload = _read_json_cached(str(path), _mtime_signature(path))
+    """Load a JSON file with cache invalidation based on file mtime.
+
+    A read failure is reported in the UI and logged; it is never silently
+    indistinguishable from a missing artifact.
+    """
+    payload, error = _read_json_cached(str(path), _mtime_signature(path))
+    if error is not None:
+        _report_load_error(path, error)
     if isinstance(payload, dict):
         return dict(payload)
     if isinstance(payload, list):
@@ -175,10 +198,10 @@ def _parse_value(value: Any) -> Any:
             return None
         try:
             return ast.literal_eval(text)
-        except Exception:
+        except (ValueError, SyntaxError, TypeError, MemoryError, RecursionError):
             try:
                 return json.loads(text)
-            except Exception:
+            except json.JSONDecodeError:
                 return text
     return value
 
@@ -215,12 +238,14 @@ def extract_scores(raw_value: Any) -> list[float]:
         for item in parsed:
             try:
                 scores.append(float(item))
-            except Exception:
+            except (TypeError, ValueError):
+                logger.debug("Skipping non-numeric recommendation score: %r", item)
                 continue
         return scores
     try:
         return [float(parsed)]
-    except Exception:
+    except (TypeError, ValueError):
+        logger.debug("Skipping non-numeric recommendation score: %r", parsed)
         return []
 
 
@@ -231,7 +256,8 @@ def project_version(default: str = "0.1.0") -> str:
         for line in PYPROJECT_PATH.read_text(encoding="utf-8").splitlines():
             if line.startswith("version = "):
                 return line.split("=", 1)[1].strip().strip('"')
-    except Exception:
+    except (OSError, UnicodeDecodeError) as exc:
+        logger.warning("Could not read project version from %s: %s", PYPROJECT_PATH, exc)
         return default
     return default
 

@@ -19,6 +19,12 @@ from loyalty_engine.validation import validate_workbook
 
 logger = logging.getLogger(__name__)
 
+_DEFAULT_DISTANCE_STATISTICS: dict[str, float] = {
+    "min_distance": 0.0,
+    "max_distance": 1.0,
+    "average_distance": 0.0,
+}
+
 
 class NewCustomerPredictor:
     """Reusable prediction entry point for brand-new customers.
@@ -50,6 +56,7 @@ class NewCustomerPredictor:
         """Predict cluster/persona/rewards for a single new customer profile."""
         customer_frame = self._coerce_to_profile_frame(profile)
         if customer_frame.empty:
+            logger.warning("Received an empty customer profile; returning an empty prediction.")
             return {
                 "customer_id": None,
                 "predicted_cluster": None,
@@ -242,12 +249,20 @@ class NewCustomerPredictor:
 
     def _load_feature_pipeline(self) -> Any | None:
         if not self.feature_pipeline_path.exists():
+            logger.warning(
+                "Feature pipeline artifact not found at %s; falling back to on-the-fly feature engineering.",
+                self.feature_pipeline_path,
+            )
             return None
         return joblib.load(self.feature_pipeline_path)
 
     def _load_feature_metadata(self) -> dict[str, Any] | None:
         metadata_path = PATHS.feature_metadata_path
         if not metadata_path.exists():
+            logger.warning(
+                "Feature metadata not found at %s; input columns will not be aligned with training.",
+                metadata_path,
+            )
             return None
         with open(metadata_path, "r", encoding="utf-8") as handle:
             return json.load(handle)
@@ -259,11 +274,19 @@ class NewCustomerPredictor:
 
     def _load_cluster_profiles(self) -> pd.DataFrame | None:
         if not self.cluster_profiles_path.exists():
+            logger.warning(
+                "Cluster profiles not found at %s; personas may be reported as 'Unknown'.",
+                self.cluster_profiles_path,
+            )
             return None
         return pd.read_csv(self.cluster_profiles_path)
 
     def _load_cluster_statistics(self) -> pd.DataFrame | None:
         if not self.cluster_statistics_path.exists():
+            logger.warning(
+                "Cluster statistics not found at %s; cluster-level metrics will be omitted.",
+                self.cluster_statistics_path,
+            )
             return None
         return pd.read_csv(self.cluster_statistics_path)
 
@@ -275,12 +298,22 @@ class NewCustomerPredictor:
 
         training_features_path = PATHS.customer_features_path
         if not training_features_path.exists():
-            return {"min_distance": 0.0, "max_distance": 1.0, "average_distance": 0.0}
+            logger.warning(
+                "Training features not found at %s; similarity scores fall back to the unit distance scale.",
+                training_features_path,
+            )
+            return _DEFAULT_DISTANCE_STATISTICS.copy()
 
         training_features = pd.read_csv(training_features_path)
         available_features = [feature for feature in SEGMENTATION_FEATURES if feature in training_features.columns]
         if len(available_features) < 1:
-            return {"min_distance": 0.0, "max_distance": 1.0, "average_distance": 0.0}
+            logger.warning(
+                "None of the segmentation features %s are present in %s; similarity scores fall back "
+                "to the unit distance scale.",
+                list(SEGMENTATION_FEATURES),
+                training_features_path,
+            )
+            return _DEFAULT_DISTANCE_STATISTICS.copy()
 
         scaled = self.segmentation_bundle.scaler.transform(training_features[available_features])
         all_distances = self.segmentation_bundle.kmeans_model.transform(scaled)
@@ -291,8 +324,12 @@ class NewCustomerPredictor:
             "average_distance": float(np.mean(centroid_distances)),
         }
 
-        with open(stats_path, "w", encoding="utf-8") as handle:
-            json.dump(stats, handle, indent=2)
+        try:
+            stats_path.parent.mkdir(parents=True, exist_ok=True)
+            with open(stats_path, "w", encoding="utf-8") as handle:
+                json.dump(stats, handle, indent=2)
+        except OSError as exc:
+            logger.warning("Could not cache cluster distance statistics to %s: %s", stats_path, exc)
 
         if self.cluster_statistics is not None:
             updated_statistics = self.cluster_statistics.copy()
