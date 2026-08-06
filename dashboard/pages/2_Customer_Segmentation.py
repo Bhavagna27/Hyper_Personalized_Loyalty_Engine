@@ -435,24 +435,25 @@ def _render_cluster_detail_cards(row: pd.Series) -> None:
         )
 
 
+def _persona_card_html(row: pd.Series) -> str:
+    return (
+        "<div class='seg-card'>"
+        f"<div class='seg-card-title'>Cluster {int(row['cluster_id'])} - {esc(row.get('persona'), 'N/A')}</div>"
+        f"<div class='seg-card-subtitle'>{row.get('cluster_size', 0):,} customers</div>"
+        f"<div class='cluster-note'>{esc(row.get('persona_explanation'), 'N/A')}</div>"
+        "<div style='margin-top:0.7rem;'>"
+        f"<span class='seg-chip'>Spend {esc(row.get('average_spend'), 'N/A')}</span>"
+        f"<span class='seg-chip'>Engagement {esc(row.get('customer_engagement_score'), 'N/A')}</span>"
+        f"<span class='seg-chip'>Risk {esc(row.get('churn_risk_dominant'), 'N/A')}</span>"
+        "</div>"
+        "</div>"
+    )
+
+
 def _render_persona_cards(frame: pd.DataFrame, selected_cluster: int) -> None:
     st.markdown(
         "<div class='seg-grid'>"
-        + "".join(
-            f"""
-            <div class="seg-card">
-                <div class="seg-card-title">Cluster {int(row['cluster_id'])} - {esc(row.get('persona'), 'N/A')}</div>
-                <div class="seg-card-subtitle">{row.get('cluster_size', 0):,} customers</div>
-                <div class="cluster-note">{esc(row.get('persona_explanation'), 'N/A')}</div>
-                <div style="margin-top:0.7rem;">
-                    <span class="seg-chip">Spend {esc(row.get('average_spend'), 'N/A')}</span>
-                    <span class="seg-chip">Engagement {esc(row.get('customer_engagement_score'), 'N/A')}</span>
-                    <span class="seg-chip">Risk {esc(row.get('churn_risk_dominant'), 'N/A')}</span>
-                </div>
-            </div>
-            """
-            for _, row in frame.iterrows()
-        )
+        + "".join(_persona_card_html(row) for _, row in frame.iterrows())
         + "</div>",
         unsafe_allow_html=True,
     )
