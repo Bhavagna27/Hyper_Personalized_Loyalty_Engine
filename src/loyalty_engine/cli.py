@@ -46,7 +46,7 @@ from pathlib import Path
 
 from loyalty_engine.config import PATHS
 from loyalty_engine.features import FeatureEngineeringPipeline
-from loyalty_engine.io import ExcelDatasetLoader, IngestionPipeline, configure_logging
+from loyalty_engine.io import ExcelDatasetLoader, IngestionPipeline, configure_logging, write_csv
 from loyalty_engine.pipeline import (
     SegmentationPipeline,
     run_training_pipeline,
@@ -242,8 +242,7 @@ def _handle_train(args: argparse.Namespace) -> None:
 
 def _handle_score(args: argparse.Namespace) -> None:
     scored = score_workbook(args.input, args.artifact)
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    scored.to_csv(args.output, index=False)
+    write_csv(scored, args.output)
     print(f"Saved scored recommendations to {args.output}")
 
 

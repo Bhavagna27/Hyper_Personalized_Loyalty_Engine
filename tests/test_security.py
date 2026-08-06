@@ -9,6 +9,7 @@ if str(ROOT) not in sys.path:
 
 from dashboard.components.safe_html import css_token, esc
 from loyalty_engine.config import PATHS
+from loyalty_engine.io.persistence import load_joblib
 from loyalty_engine.security import is_trusted_artifact_path, load_artifact
 
 
@@ -30,3 +31,10 @@ def test_artifacts_inside_project_are_trusted():
 def test_load_artifact_rejects_untrusted_path(tmp_path):
     with pytest.raises(PermissionError):
         load_artifact(tmp_path / "model.joblib")
+
+
+def test_load_joblib_rejects_untrusted_path(tmp_path):
+    untrusted = tmp_path / "model.joblib"
+    untrusted.write_bytes(b"not-a-real-artifact")
+    with pytest.raises(PermissionError):
+        load_joblib(untrusted)

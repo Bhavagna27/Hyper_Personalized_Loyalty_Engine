@@ -4,9 +4,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-import joblib
-
-from loyalty_engine.security import load_artifact
+from loyalty_engine.io.persistence import dump_joblib, load_joblib
 
 
 @dataclass
@@ -20,10 +18,9 @@ class ModelBundle:
 
 
 def save_bundle(bundle: ModelBundle, path: Path) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    joblib.dump(bundle, path)
+    dump_joblib(bundle, path)
 
 
 def load_bundle(path: Path) -> ModelBundle:
-    return load_artifact(path)
+    return load_joblib(path, must_exist=True)
 
