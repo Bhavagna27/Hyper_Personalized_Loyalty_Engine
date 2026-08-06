@@ -12,18 +12,16 @@ Executes end-to-end customer segmentation:
 
 from __future__ import annotations
 
-import json
 import logging
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, NamedTuple
 
-import joblib
 import pandas as pd
 
 from loyalty_engine.config import PATHS
 from loyalty_engine.features import FeatureEngineeringPipeline
-from loyalty_engine.io import IngestionPipeline
+from loyalty_engine.io import IngestionPipeline, dump_joblib, ensure_dir, write_csv, write_json
 from loyalty_engine.models.segmentation import (
     SEGMENTATION_FEATURES,
     KEvaluationResult,
@@ -127,8 +125,8 @@ class SegmentationPipeline:
         saved_paths: list[Path] = []
 
         if save:
-            self.output_dir.mkdir(parents=True, exist_ok=True)
-            self.artifacts_dir.mkdir(parents=True, exist_ok=True)
+            ensure_dir(self.output_dir)
+            ensure_dir(self.artifacts_dir)
 
             # 5. Generate Visualizations (Outputs under outputs/clustering/)
             plot_elbow_and_silhouette(
@@ -179,22 +177,22 @@ class SegmentationPipeline:
             # 6. Save Artifacts (kmeans_model.joblib, cluster_profiles.csv, cluster_statistics.csv, cluster_summary.json)
             # Save model joblib
             model_joblib_path = self.artifacts_dir / "kmeans_model.joblib"
-            joblib.dump(bundle, model_joblib_path)
+            dump_joblib(bundle, model_joblib_path)
             saved_paths.append(model_joblib_path)
 
             # Copy model joblib to outputs/clustering for easy access
             outputs_model_path = self.output_dir / "kmeans_model.joblib"
-            joblib.dump(bundle, outputs_model_path)
+            dump_joblib(bundle, outputs_model_path)
             saved_paths.append(outputs_model_path)
 
             # Save cluster_profiles.csv
             profiles_csv_path = self.output_dir / "cluster_profiles.csv"
-            bundle.cluster_profiles.to_csv(profiles_csv_path, index=False)
+            write_csv(bundle.cluster_profiles, profiles_csv_path)
             saved_paths.append(profiles_csv_path)
 
             # Save cluster_statistics.csv
             stats_csv_path = self.output_dir / "cluster_statistics.csv"
-            bundle.cluster_statistics.to_csv(stats_csv_path, index=False)
+            write_csv(bundle.cluster_statistics, stats_csv_path)
             saved_paths.append(stats_csv_path)
 
             # Save cluster_summary.json
@@ -213,14 +211,12 @@ class SegmentationPipeline:
             }
 
             summary_json_path = self.artifacts_dir / "cluster_summary.json"
-            with open(summary_json_path, "w", encoding="utf-8") as fh:
-                json.dump(summary_dict, fh, indent=2, default=str)
+            write_json(summary_dict, summary_json_path)
             saved_paths.append(summary_json_path)
 
             # Also save JSON in outputs/clustering/
             outputs_json_path = self.output_dir / "cluster_summary.json"
-            with open(outputs_json_path, "w", encoding="utf-8") as fh:
-                json.dump(summary_dict, fh, indent=2, default=str)
+            write_json(summary_dict, outputs_json_path)
             saved_paths.append(outputs_json_path)
 
             logger.info("Saved %d segmentation artifacts and plots.", len(saved_paths))

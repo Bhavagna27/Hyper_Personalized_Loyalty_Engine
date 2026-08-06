@@ -9,6 +9,8 @@ from typing import Any
 
 import pandas as pd
 
+from loyalty_engine.io.persistence import read_json, write_csv, write_json
+
 logger = logging.getLogger(__name__)
 
 
@@ -77,9 +79,7 @@ class LLMRecommendationPersonalizer:
 
         output = pd.DataFrame(rows)
         if output_path is not None:
-            path = Path(output_path)
-            path.parent.mkdir(parents=True, exist_ok=True)
-            output.to_csv(path, index=False)
+            write_csv(output, output_path)
         return output
 
     def _normalize_payload(self, customer_payload: dict[str, Any]) -> dict[str, Any]:
@@ -204,27 +204,24 @@ class LLMRecommendationPersonalizer:
 
     def _read_cache(self, cache_key: str) -> dict[str, Any] | None:
         cache_path = Path(__file__).resolve().parent / "cache.json"
-        if not cache_path.exists():
-            return None
         try:
-            with open(cache_path, "r", encoding="utf-8") as handle:
-                data = json.load(handle)
+            data = read_json(cache_path)
         except Exception:
+            return None
+        if not isinstance(data, dict):
             return None
         return data.get(cache_key)
 
     def _write_cache(self, cache_key: str, result: dict[str, Any]) -> None:
         cache_path = Path(__file__).resolve().parent / "cache.json"
-        data: dict[str, Any] = {}
-        if cache_path.exists():
-            try:
-                with open(cache_path, "r", encoding="utf-8") as handle:
-                    data = json.load(handle)
-            except Exception:
-                data = {}
+        try:
+            data = read_json(cache_path, default={})
+        except Exception:
+            data = {}
+        if not isinstance(data, dict):
+            data = {}
         data[cache_key] = result
-        with open(cache_path, "w", encoding="utf-8") as handle:
-            json.dump(data, handle, indent=2)
+        write_json(data, cache_path)
 
 
 def generate_message(customer_payload: dict[str, Any]) -> dict[str, Any]:
